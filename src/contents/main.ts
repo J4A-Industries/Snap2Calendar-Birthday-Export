@@ -17,9 +17,12 @@ const init = async () => {
   // if the storage area hasn't been created yet, wait until it has
   if (!storageArea) {
     await new Promise((resolve) => {
-      setTimeout(() => {
+      const getStorageInterval = setInterval(() => {
         storageArea = document.querySelector('#friends-storage-area');
-        resolve(null);
+        if (storageArea) {
+          clearInterval(getStorageInterval);
+          resolve(null);
+        }
       }, 10);
     });
   }
