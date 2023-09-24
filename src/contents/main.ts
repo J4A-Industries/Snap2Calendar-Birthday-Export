@@ -7,26 +7,45 @@ import { sendToBackground } from '@plasmohq/messaging';
  * Running in 'main' world, which means it has access to the DOM
  */
 export const config: PlasmoCSConfig = {
-  matches: ['*://j4a.uk/*'],
-  run_at: 'document_start',
+  matches: ['*://web.snapchat.com/*'],
+  run_at: 'document_idle',
   css: ['./style.css'],
 };
 
-/**
- * Executing styling on the site, letting me use tailwind
+const init = async () => {
+  let storageArea = document.querySelector('#friends-storage-area') as HTMLMetaElement;
+  // if the storage area hasn't been created yet, wait until it has
+  if (!storageArea) {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        storageArea = document.querySelector('#friends-storage-area');
+        resolve(null);
+      }, 10);
+    });
+  }
 
-export const getStyle: PlasmoGetStyle = () => {
-  const style = document.createElement('style');
-  style.textContent = styleText;
-  return style;
-};
-*/
+  // if the storage area is still empty, wait it's been filled with the friends
+  if (storageArea.innerText === '') {
+    await new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (storageArea.innerText !== '') {
+          clearInterval(interval);
+          resolve(null);
+        }
+      }, 10);
+    });
+  }
 
-try {
-  console.log('Hello from contentscript.ts');
-  sendToBackground({ name: 'getImages' as never }).then((res) => {
-    console.log(`Message from background: ${res}`);
+  console.log('Got the friends!');
+
+  const friends = JSON.parse(storageArea.innerText);
+
+  const res = await sendToBackground({
+    name: 'getFriendsRequest',
+    body: friends,
   });
-} catch (err) {
-  console.error(err);
-}
+
+  console.log(res);
+};
+
+init();

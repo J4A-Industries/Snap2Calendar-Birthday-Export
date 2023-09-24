@@ -5,8 +5,11 @@ declare namespace NodeJS {
 }
 
 interface Window {
-  dataLayer: Array
-  gtag: (a: string, b: any, c?: any) => void
+  dataLayer: Array;
+  gtag: (a: string, b: any, c?: any) => void;
+  handle: any;
+  testing: any;
+  intercepted: any[];
 }
 
 declare module '*.svg' {

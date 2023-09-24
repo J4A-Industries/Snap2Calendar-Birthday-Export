@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@plasmohq/messaging": "^0.1.8",
-    "@plasmohq/storage": "^1.6.0",
-    "@types/webextension-polyfill": "^0.10.0",
-    "plasmo": "0.67.4",
+    "@plasmohq/storage": "^1.8.0",
+    "@types/webextension-polyfill": "^0.10.3",
+    "plasmo": "^0.83.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.2.4",
@@ -26,14 +26,14 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
-    "@typescript-eslint/eslint-plugin": "^5.59.5",
-    "@typescript-eslint/parser": "^5.59.5",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "autoprefixer": "10.4.13",
-    "eslint": "^8.40.0",
+    "eslint": "^8.50.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "8.4.21",
     "prettier": "2.8.3",
@@ -41,11 +41,14 @@
   },
   "manifest": {
     "host_permissions": [
-      "*://j4a.uk/*"
+      "*://web.snapchat.com/*"
     ],
     "permissions": [
       "webRequest",
-      "storage"
+      "storage",
+      "scripting",
+      "tabs",
+      "webRequest"
     ],
     "icons": {
       "64": "/assets/icon64.png",
@@ -53,7 +56,7 @@
     },
     "externally_connectable": {
       "matches": [
-        "*://j4a.uk/*"
+        "*://web.snapchat.com/*"
       ]
     },
     "browser_specific_settings": {
@@ -125,7 +128,8 @@
       "no-alert": 0,
       "import/prefer-default-export": 0,
       "no-shadow": "off",
-      "@typescript-eslint/no-shadow": "error"
+      "@typescript-eslint/no-shadow": "error",
+      "no-undef": 0
     }
   }
 }
