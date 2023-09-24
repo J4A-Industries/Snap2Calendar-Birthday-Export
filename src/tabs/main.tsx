@@ -268,7 +268,7 @@ const main = () => {
 
   return (
     <ThemeProvider theme={MuiTheme}>
-      <div className="w-full min-h-screen bg-gray-800">
+      <div className="w-full min-h-screen bg-gray-800 flex flex-col">
         <div className="flex flex-col justify-center items-center gap-2 mt-8">
           <div className="text-4xl bg-zinc-900 rounded-2xl flex justify-center align-middle lg:w-2/3 w-full p-4">
             <div className="m-auto text-white">
@@ -339,11 +339,12 @@ const main = () => {
 
           </div>
         </div>
-      </div>
-      <div className="text-center w-full">
-        <a href="https://j4a.uk/" target="_blank" rel="noreferrer" className="text-white">
-          By J4a Industries
-        </a>
+        <div className="flex-1" />
+        <div className="text-center w-full p-4">
+          <a href="https://j4a.uk/" target="_blank" rel="noreferrer" className="text-white">
+            By J4a Industries
+          </a>
+        </div>
       </div>
       <dialog id="addToCalendarModal" className="modal">
         <div className="modal-box min-h-[20em] flex flex-col">
