@@ -2,7 +2,7 @@
   "name": "Birthday-Export-For-Snapchat",
   "displayName": "Birthday Export For Snapchat",
   "version": "0.0.1",
-  "description": "If you have a mind like a sieve when it comes to remembering birthdays, this little extension is more reliable than tattooing dates on your forearm. It exports the birthdays of your Snapchat friends to your calendar - because, really, who needs another reason for their partner to give them the silent treatment?",
+  "description": "Allows exporting of birthdays from Snapchat to your calendar (ICAL format)",
   "author": "James",
   "scripts": {
     "dev": "plasmo dev",
