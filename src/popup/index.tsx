@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import '@/popup/style.css';
 import { useStorage } from '@plasmohq/storage/hook';
 import logo from '~assets/LighterFuel512.png';
-
 import 'https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID';
 
 enum menuOptions {
@@ -32,6 +31,11 @@ const IndexPopup = () => {
           Open
         </div>
       </a>
+      <div className="text-center w-full p-2 text-sm">
+        <a href="https://j4a.uk/" target="_blank" rel="noreferrer" className="text-white underline">
+          By J4a Industries
+        </a>
+      </div>
     </div>
   );
 };
