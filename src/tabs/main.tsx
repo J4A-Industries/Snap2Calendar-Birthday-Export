@@ -170,7 +170,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           className="m-auto"
-          label="Add Birthdays Until"
+          label="Repeat in calendar until"
           views={['year']}
           value={dayjs(addUntil)}
           onChange={(newDate) => setAddUntil(new Date(newDate.valueOf()))}
@@ -276,62 +276,81 @@ const main = () => {
             </div>
           </div>
           <div className="bg-zinc-900 lg:w-2/3 w-full m-4 p-4 flex justify-center align-middle">
-            <div className="m-auto text-white grid grid-cols-2 grid-rows-1 gap-4 justify-center align-middle">
+            <div className="m-auto text-white flex gap-4 justify-center align-middle">
               {
-								stored.storedAt && (
-									<div className="m-auto text-xl">
-  Last Updated:
-  {' '}
-  {new Date(stored?.storedAt).toLocaleDateString()}
-									</div>
+								stored ? (
+  <>
+    <div className="m-auto text-xl">
+      Last Updated:
+      {' '}
+      {new Date(stored?.storedAt).toLocaleDateString()}
+    </div>
+    <a href="https://web.snapchat.com/" target="_blank" rel="noreferrer">
+      <div className="btn btn-primary">
+        Update Now
+      </div>
+    </a>
+  </>
+
+								) : (
+  <a href="https://web.snapchat.com/" target="_blank" rel="noreferrer">
+    <div className="btn btn-primary">
+      Click here to open snapchat&apos;s website, login and then come back here
+    </div>
+  </a>
 								)
 							}
 
-              <a href="https://web.snapchat.com/" target="_blank" rel="noreferrer">
-                <div className="btn btn-primary">
-                  Update Now
-                </div>
-              </a>
             </div>
 
           </div>
           <div className="lg:w-2/3 w-full m-4">
-            <DataGrid
-              className="bg-zinc-900 h-fit"
-              rows={filteredFriends}
-              columns={columns}
-              getRowId={(row) => row.user_id}
-              checkboxSelection
-              rowSelectionModel={selectionModel}
-              onRowSelectionModelChange={(newSelection) => {
-                setSelectionModel(newSelection);
-              }}
-              rowModesModel={rowModesModel}
-              onRowModesModelChange={(newModel) => {
-                setRowModesModel(newModel);
-              }}
-              pageSizeOptions={[10, 25, 50, 100]}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 10 },
-                },
-              }}
-              slots={{ toolbar: DatagridToolbar }}
-              slotProps={{ toolbar: { selectionModel, setSelectionModel, filteredFriends } }}
-              sortModel={sortModel}
-              onSortModelChange={(newModel) => {
-                setSortModel(newModel);
-              }}
-            />
+            {
+							stored && (
+<DataGrid
+  className="bg-zinc-900 h-fit"
+  rows={filteredFriends}
+  columns={columns}
+  getRowId={(row) => row.user_id}
+  checkboxSelection
+  rowSelectionModel={selectionModel}
+  onRowSelectionModelChange={(newSelection) => {
+    setSelectionModel(newSelection);
+  }}
+  rowModesModel={rowModesModel}
+  onRowModesModelChange={(newModel) => {
+    setRowModesModel(newModel);
+  }}
+  pageSizeOptions={[10, 25, 50, 100]}
+  initialState={{
+    pagination: {
+      paginationModel: { page: 0, pageSize: 10 },
+    },
+  }}
+  slots={{ toolbar: DatagridToolbar }}
+  slotProps={{ toolbar: { selectionModel, setSelectionModel, filteredFriends } }}
+  sortModel={sortModel}
+  onSortModelChange={(newModel) => {
+    setSortModel(newModel);
+  }}
+/>
+							)
+						}
+
           </div>
         </div>
+      </div>
+      <div className="text-center w-full">
+        <a href="https://j4a.uk/" target="_blank" rel="noreferrer" className="text-white">
+          By J4a Industries
+        </a>
       </div>
       <dialog id="addToCalendarModal" className="modal">
         <div className="modal-box min-h-[20em] flex flex-col">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <h3 className="font-bold text-2xl">Add to your calendar</h3>
+          <h3 className="font-bold text-2xl">Your calendar has been downloaded, here&apos;s some links to popular calendars</h3>
           <div className="flex justify-center align-middle h-full flex-1 gap-4">
             <a href="https://calendar.google.com/calendar/u/0/r/settings/export" target="_blank" rel="noreferrer" className="m-auto">
               <div className="btn btn-secondary flex justify-center align-middle min-h-[5em]">
