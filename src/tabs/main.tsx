@@ -29,6 +29,7 @@ import { BiLogoGoogle } from 'react-icons/bi';
 import { PiMicrosoftOutlookLogoFill } from 'react-icons/pi';
 import type { storedFriends } from '@/background/messages/getFriendsRequest';
 import type { Friend } from '@/background/friendsType';
+import 'https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID';
 
 const themeDef: ThemeOptions = {
   palette: {
@@ -74,6 +75,17 @@ export type ToolbarProps = {
 export const DatagridToolbar: FC<ToolbarProps> = (
   { selectionModel, setSelectionModel, filteredFriends },
 ) => {
+  useEffect(() => {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function gtag() {
+      window.dataLayer.push(arguments) // eslint-disable-line
+    };
+    window.gtag('js', new Date());
+    window.gtag('config', process.env.PLASMO_PUBLIC_GTAG_ID, {
+      page_path: '/tabs/main',
+    });
+  }, []);
+
   // add until should be set to current date + 5 years
   const [addUntil, setAddUntil] = useState<Date>(() => {
     const date = new Date();
@@ -153,6 +165,9 @@ export const DatagridToolbar: FC<ToolbarProps> = (
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
     window.addToCalendarModal.showModal();
+    window.gtag('event', 'CalendarCreated', {
+      amount: events.length,
+    });
   };
 
   return (
