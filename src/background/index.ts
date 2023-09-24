@@ -39,3 +39,11 @@ chrome.tabs.onUpdated.addListener((e, changeInfo, tab) => {
     inject(e);
   }
 });
+
+chrome.runtime.onInstalled.addListener((object) => {
+  const internalUrl = chrome.runtime.getURL('tabs/main.html');
+
+  if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    chrome.tabs.create({ url: internalUrl });
+  }
+});
