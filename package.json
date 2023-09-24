@@ -55,11 +55,9 @@
       "*://web.snapchat.com/*"
     ],
     "permissions": [
-      "webRequest",
       "storage",
       "scripting",
-      "tabs",
-      "webRequest"
+      "tabs"
     ],
     "icons": {
       "64": "/assets/icon64.png",
