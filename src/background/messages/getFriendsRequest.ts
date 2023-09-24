@@ -1,11 +1,33 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
+import { Storage } from '@plasmohq/storage';
 import { bgString } from '../index';
+import type { Friend } from '@/background/friendsType';
+
+export interface incomingFriend {
+	friends: Friend[];
+}
+
+export interface storedFriends {
+	storedAt: Date;
+	friends: Friend[];
+}
 
 /**
  * This handles the request from the CS
  */
-const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
+const handler: PlasmoMessaging.MessageHandler<incomingFriend, boolean> = async (req, res) => {
   console.log(req.body);
+  const storage = new Storage({
+    area: 'local',
+  });
+
+  const storedFriends: storedFriends = {
+    storedAt: new Date(),
+    friends: req.body.friends,
+  };
+
+  await storage.set('storedFriends', storedFriends);
+
   res.send(true);
 };
 

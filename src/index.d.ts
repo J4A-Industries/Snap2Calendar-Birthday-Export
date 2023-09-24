@@ -10,6 +10,7 @@ interface Window {
   handle: any;
   testing: any;
   intercepted: any[];
+  addToCalendarModal: any;
 }
 
 declare module '*.svg' {

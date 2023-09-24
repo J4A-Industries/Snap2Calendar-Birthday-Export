@@ -1,8 +1,8 @@
 {
-  "name": "plasmo-extension-template",
-  "displayName": "A Chrome extension template for new projects, that uses the Plasmo framework.",
+  "name": "Birthday-Export-For-Snapchat",
+  "displayName": "Birthday Export For Snapchat",
   "version": "0.0.1",
-  "description": "",
+  "description": "If you have a mind like a sieve when it comes to remembering birthdays, this little extension is more reliable than tattooing dates on your forearm. It exports the birthdays of your Snapchat friends to your calendar - because, really, who needs another reason for their partner to give them the silent treatment?",
   "author": "James",
   "scripts": {
     "dev": "plasmo dev",
@@ -11,12 +11,23 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.10",
+    "@mui/system": "^5.14.10",
+    "@mui/x-data-grid": "^6.15.0",
+    "@mui/x-date-pickers": "^6.15.0",
     "@plasmohq/messaging": "^0.1.8",
     "@plasmohq/storage": "^1.8.0",
     "@types/webextension-polyfill": "^0.10.3",
+    "daisyui": "^3.7.7",
+    "dayjs": "^1.11.10",
+    "ics": "^3.5.0",
     "plasmo": "^0.83.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.11.0",
+    "rrule": "^2.7.2",
     "tailwindcss": "3.2.4",
     "webextension-polyfill": "^0.10.0"
   },

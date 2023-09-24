@@ -4,7 +4,7 @@ import ukraineFlag from 'svg-country-flags/svg/ua.svg';
 import '@/popup/style.css';
 import { useStorage } from '@plasmohq/storage/hook';
 import logo from '~assets/LighterFuel512.png';
-import { openTab } from '@/misc/utils';
+
 import 'https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID';
 
 enum menuOptions {
@@ -28,7 +28,9 @@ const IndexPopup = () => {
 
   return (
     <div className="App text-center w-[280px] font['Roboto', sans-serif] text-2xl font-light bg-slate-900 text-white p-5 select-none gap-2 flex flex-col">
-      <h1>hi</h1>
+      <a href={chrome.runtime.getURL('tabs/main.html')} target="_blank" rel="noreferrer">
+        <h1>hi</h1>
+      </a>
     </div>
   );
 };
