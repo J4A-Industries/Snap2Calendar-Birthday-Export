@@ -228,11 +228,13 @@ const main = () => {
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <h3 className="font-bold text-2xl underline h-64 mb-4">
+          <h3 className="font-bold text-xl h-64 mb-4">
             Note: For notifications to work in google calendar, upload the file twice.
             {' '}
             <br />
             this will not add the birthdays twice.
+            <br />
+            <hr />
           </h3>
 
           <div className="flex justify-center align-middle h-full flex-1 gap-4">
@@ -253,10 +255,12 @@ const main = () => {
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <h3 className="font-bold text-2xl underline h-64 mb-4">
-            Note: For notifications to work in outlook, you can only select 1 day before.
+          <h3 className="font-bold text-xl h-64 mb-4">
+            For notifications to work in outlook, you can only select 1 day before.
             <br />
             Selecting any other options will break the 1 day before notification.
+            <br />
+            <hr />
           </h3>
 
           <div className="flex justify-center align-middle h-full flex-1 gap-4">
@@ -277,10 +281,11 @@ const main = () => {
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <h3 className="font-bold text-2xl underline h-64 mb-4">
-            Icloud allows a maximum of 2 notifications per birthday.
+          <h3 className="font-bold text-xl h-64 mb-4">
+            ICloud allows a maximum of 2 notifications per birthday.
             {' '}
             <br />
+            <hr />
             To add a calendar to your ICloud, the easiest way is to email it to yourself and open it on the default mail app.
             Otherwise if you are on a mac, you can open the calendar app and import it from there.
           </h3>
