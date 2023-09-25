@@ -1,10 +1,5 @@
 import { Storage } from '@plasmohq/storage';
-import Browser from 'webextension-polyfill';
-import injectedCode from 'url:./handleFetchRequests.ts';
-import { sendToBackgroundViaRelay } from '@plasmohq/messaging';
 import { handleFetchRequests } from './handleFetchRequests';
-
-const bgString = "hi, I'm a background string";
 
 try {
   const storage = new Storage();
@@ -12,8 +7,6 @@ try {
 } catch (err: any) {
   console.error(`Error caught in background.js: ${err.stack}`);
 }
-
-export { bgString };
 
 const inject = async (tabId: number) => {
   console.log('Injecting');
@@ -31,15 +24,18 @@ const inject = async (tabId: number) => {
   );
 };
 
-// Simple example showing how to inject.
-// You can inject however you'd like to, doesn't have
-// to be with chrome.tabs.onActivated
+/**
+ * If the user is on https://web.snapchat.com/, inject the script
+ */
 chrome.tabs.onUpdated.addListener((e, changeInfo, tab) => {
   if (tab.url && tab.url.match(/https?:\/\/web\.snapchat\.com\/.*?/)) {
     inject(e);
   }
 });
 
+/**
+ * When the user first installs the extension, open the main page
+ */
 chrome.runtime.onInstalled.addListener((object) => {
   const internalUrl = chrome.runtime.getURL('tabs/main.html');
 

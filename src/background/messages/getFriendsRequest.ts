@@ -13,7 +13,7 @@ export interface storedFriends {
 }
 
 /**
- * This handles the request from the CS
+ * This handles the request from the CS to get the friends
  */
 const handler: PlasmoMessaging.MessageHandler<incomingFriend, boolean> = async (req, res) => {
   console.log(req.body);
