@@ -2,8 +2,8 @@ import type { PlasmoCSConfig, PlasmoGetStyle } from 'plasmo';
 // import styleText from 'data-text:~src/contents/style.css';
 
 /**
- * Execute the script on the tinder website,
- * Running in 'main' world, which means it has access to the DOM
+ * For some reason, injecting into the MAIN world on https://web.snapchat.com/ doesn't work.
+ * TODO: Figure out why and use content scripts instead of script injection.
  */
 export const config: PlasmoCSConfig = {
   matches: ['*://web.snapchat.com/*'],
@@ -12,4 +12,4 @@ export const config: PlasmoCSConfig = {
   world: 'MAIN',
 };
 
-window.document.body.style.backgroundColor = 'red';
+console.log('Hi i am an injected script!');
