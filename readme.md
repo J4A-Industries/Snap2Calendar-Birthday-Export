@@ -9,3 +9,10 @@ It works by intercepting the fetch requests on https://web.snapchat.com/ and ext
 then it lets you select which birthdays you want to export and finally it lets you download the ICAL file.
 
 ![Promo-image-1](https://raw.githubusercontent.com/Acorn221/Snap2Calendar-Birthday-Export/master/assets/promo1.png)
+
+## Todo
+
+- [ ] Get the user to select which calendar to export to at the start, then limit notification options based off of the calendar type
+  - [ ] Google allows all the notifications, but requires a calendar file to be uploaded twice
+  - [ ] Outlook only allows one, 1 day before
+  - [ ] ICloud allows 2 whenever
