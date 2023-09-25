@@ -36,6 +36,11 @@ const dayWithSuffix = (date) => {
   }
 };
 
+/**
+ * Here's where the datagrid columns are defined
+ * The birthday has a valuegetter to get the date from the string
+ * so it can be sorted, then it is rendered in a more readable format
+ */
 const columns: GridColDef[] = [
   {
     field: 'name',
@@ -75,17 +80,18 @@ const main = () => {
     }),
   });
 
+  // this state stores all the friends who have birthday records
   const [filteredFriends, setFilteredFriends] = useState<Friend[]>([]);
 
+  // these are for the datagrid to function properly
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-
   const [sortModel, setSortModel] = useState<GridSortModel>([
     {
       field: 'birthday',
       sort: 'asc',
     },
   ]);
-
+  // the selection model stores an array of IDs of the selected rows
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>([]);
 
   useEffect(() => {

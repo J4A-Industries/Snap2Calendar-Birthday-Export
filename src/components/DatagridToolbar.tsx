@@ -27,6 +27,9 @@ export type ToolbarProps = {
 export const DatagridToolbar: FC<ToolbarProps> = (
   { selectionModel, setSelectionModel, filteredFriends },
 ) => {
+  /**
+   * Add Google Analytics to the page
+   */
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
     window.gtag = function gtag() {
@@ -49,6 +52,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
     // get all the selected friends from the filtered friends
     const selectedFriends = filteredFriends.filter((friend) => selectionModel.includes(friend.user_id));
 
+    // creating a list of events from the selected friends
     const events: EventAttributes[] = selectedFriends.map((user) => {
       // Parse birthday string to get month and day
       const [month, day] = user.birthday.split('-').map(Number);
