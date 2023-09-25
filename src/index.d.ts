@@ -8,6 +8,9 @@ interface Window {
   dataLayer: Array;
   gtag: (a: string, b: any, c?: any) => void;
   addToCalendarModal: any;
+  addCalendarToGoogleModal: any;
+  addCalendarToOutlookModal: any;
+  addCalendarToIcloudModal: any;
 }
 
 declare module '*.svg' {

@@ -84,7 +84,6 @@ export const DatagridToolbar: FC<ToolbarProps> = (
       target: { value },
     } = event;
 
-    console.log(value);
     // Map the selected strings to AlarmTypes enum values
     setSelectedAlarms(value as AlarmTypes[]);
   };
@@ -92,52 +91,46 @@ export const DatagridToolbar: FC<ToolbarProps> = (
   const exportToCalendar = async () => {
     const alarms: Alarm[] = selectedAlarms.map((alarm) => {
       let outAlarm: Alarm = {};
-      switch (alarm) {
-        case AlarmTypes.day:
-          outAlarm = {
-            trigger: {
-              days: 1,
-              before: true,
-            },
-          };
-          break;
-        case AlarmTypes.week:
-          outAlarm = {
-            trigger: {
-              weeks: 1,
-              before: true,
-            },
-          };
-          break;
-        case AlarmTypes.twoWeeks:
-          outAlarm = {
-            trigger: {
-              weeks: 2,
-              before: true,
-            },
-          };
-          break;
-        case AlarmTypes.month:
-          outAlarm = {
-            trigger: {
-              weeks: 4,
-              before: true,
-            },
-          };
-          break;
-        default:
-          outAlarm = { // default to 1 week
-            trigger: {
-              weeks: 1,
-              before: true,
-            },
-          };
-          break;
+
+      if (AlarmTypes[alarm] === AlarmTypes.day) {
+        outAlarm = {
+          trigger: {
+            days: 1,
+            before: true,
+          },
+        };
       }
+
+      if (AlarmTypes[alarm] === AlarmTypes.week) {
+        outAlarm = {
+          trigger: {
+            weeks: 1,
+            before: true,
+          },
+        };
+      }
+
+      if (AlarmTypes[alarm] === AlarmTypes.twoWeeks) {
+        outAlarm = {
+          trigger: {
+            weeks: 2,
+            before: true,
+          },
+        };
+      }
+
+      if (AlarmTypes[alarm] === AlarmTypes.month) {
+        outAlarm = {
+          trigger: {
+            weeks: 4,
+            before: true,
+          },
+        };
+      }
+
       return {
         action: 'display',
         description: 'Reminder of upcoming birthday',
-        repeat: 1,
         ...outAlarm,
       };
     });
