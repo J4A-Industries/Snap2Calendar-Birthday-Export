@@ -20,6 +20,7 @@ import type { Friend } from '@/background/friendsType';
 import 'https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID';
 import { MuiTheme } from '@/components/MuiTheme';
 import { DatagridToolbar } from '@/components/DatagridToolbar';
+import logo from '~assets/icon512.png';
 
 const dayWithSuffix = (date) => {
   if (date >= 11 && date <= 13) return `${date}th`;
@@ -105,11 +106,12 @@ const main = () => {
       <div className="w-full min-h-screen bg-gray-800 flex flex-col">
         <div className="flex flex-col justify-center items-center gap-2 mt-8">
           <div className="text-4xl bg-zinc-900 rounded-2xl flex justify-center align-middle lg:w-2/3 w-full p-4">
-            <div className="m-auto text-white">
+            <img src={logo} alt="logo" className="w-16 h-16 m-auto" />
+            <div className="m-auto text-white flex-1 text-center">
               Save Your Snapchat Friends&apos; Birthdays
             </div>
           </div>
-          <div className="bg-zinc-900 lg:w-2/3 w-full m-4 p-4 flex justify-center align-middle">
+          <div className="bg-zinc-900 lg:w-2/3 w-full p-4 flex justify-center align-middle rounded-2xl">
             <div className="m-auto text-white flex gap-4 justify-center align-middle">
               {
 								stored ? (
@@ -138,7 +140,7 @@ const main = () => {
             </div>
 
           </div>
-          <div className="lg:w-2/3 w-full m-4">
+          <div className="lg:w-2/3 w-full">
             {
 							stored && (
 <DataGrid

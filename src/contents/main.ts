@@ -1,6 +1,5 @@
 import type { PlasmoCSConfig, PlasmoGetStyle } from 'plasmo';
 import { sendToBackground } from '@plasmohq/messaging';
-// import styleText from 'data-text:~src/contents/style.css';
 
 /**
  * Execute the script on the tinder website,
