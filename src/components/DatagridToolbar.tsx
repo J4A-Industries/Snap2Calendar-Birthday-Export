@@ -6,16 +6,25 @@ import {
 import type {
   GridRowSelectionModel,
 } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
+import { Button, type SelectChangeEvent } from '@mui/material';
 import { AiOutlineDownload } from 'react-icons/ai';
-import { createEvents, type EventAttributes, type DateArray } from 'ics';
+import {
+  createEvents, type EventAttributes, type DateArray, type Alarm,
+} from 'ics';
 import { RRule } from 'rrule';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
-import type { Friend } from '@/background/friendsType';
 import 'https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
+import type { Friend } from '@/background/friendsType';
 import { MuiTheme } from '@/components/MuiTheme';
 
 export type ToolbarProps = {
@@ -23,6 +32,24 @@ export type ToolbarProps = {
 	setSelectionModel: (newSelection: GridRowSelectionModel) => void;
 	filteredFriends: Friend[];
 }
+
+enum AlarmTypes {
+  day = '1 day before',
+  week = '1 week before',
+  twoWeeks = '2 weeks before',
+  month = '1 month before',
+}
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 export const DatagridToolbar: FC<ToolbarProps> = (
   { selectionModel, setSelectionModel, filteredFriends },
@@ -48,7 +75,73 @@ export const DatagridToolbar: FC<ToolbarProps> = (
     return date;
   });
 
+  const [selectedAlarms, setSelectedAlarms] = useState<AlarmTypes[]>([
+    'week' as AlarmTypes,
+  ]);
+
+  const handleChange = (event: SelectChangeEvent<typeof selectedAlarms>) => {
+    const {
+      target: { value },
+    } = event;
+
+    console.log(value);
+    // Map the selected strings to AlarmTypes enum values
+    setSelectedAlarms(value as AlarmTypes[]);
+  };
+
   const exportToCalendar = async () => {
+    const alarms: Alarm[] = selectedAlarms.map((alarm) => {
+      let outAlarm: Alarm = {};
+      switch (alarm) {
+        case AlarmTypes.day:
+          outAlarm = {
+            trigger: {
+              days: 1,
+              before: true,
+            },
+          };
+          break;
+        case AlarmTypes.week:
+          outAlarm = {
+            trigger: {
+              weeks: 1,
+              before: true,
+            },
+          };
+          break;
+        case AlarmTypes.twoWeeks:
+          outAlarm = {
+            trigger: {
+              weeks: 2,
+              before: true,
+            },
+          };
+          break;
+        case AlarmTypes.month:
+          outAlarm = {
+            trigger: {
+              weeks: 4,
+              before: true,
+            },
+          };
+          break;
+        default:
+          outAlarm = { // default to 1 week
+            trigger: {
+              weeks: 1,
+              before: true,
+            },
+          };
+          break;
+      }
+      return {
+        action: 'display',
+        description: 'Reminder of upcoming birthday',
+        repeat: 1,
+        ...outAlarm,
+      };
+    });
+
     // get all the selected friends from the filtered friends
     const selectedFriends = filteredFriends.filter((friend) => selectionModel.includes(friend.user_id));
 
@@ -91,6 +184,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
           bymonth: date.getMonth() + 1,
           bymonthday: date.getDate(),
         }).toString().split('RRULE:')[1],
+        alarms,
       };
 
       return eventAttribute;
@@ -148,6 +242,26 @@ export const DatagridToolbar: FC<ToolbarProps> = (
           minDate={dayjs(new Date())}
         />
       </LocalizationProvider>
+      <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-checkbox-label">Notifications Time</InputLabel>
+        <Select
+          labelId="demo-multiple-checkbox-label"
+          id="demo-multiple-checkbox"
+          multiple
+          value={selectedAlarms}
+          onChange={handleChange}
+          input={<OutlinedInput label="Notifications Time" />}
+          renderValue={(selected) => selected.map((value) => AlarmTypes[value]).reduce((acc, curr) => `${acc}, ${curr}`)}
+          MenuProps={MenuProps}
+        >
+          {Object.keys(AlarmTypes).map((key) => (
+            <MenuItem key={key} value={key}>
+              <Checkbox checked={selectedAlarms.indexOf(key as AlarmTypes) > -1} />
+              <ListItemText primary={AlarmTypes[key as AlarmTypes]} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <div className="flex-1" />
       <Button
         style={{
