@@ -27,9 +27,6 @@ export const handleFetchRequests = () => {
 
   const handler = {
     async apply(target, thisArg, argumentsList) {
-      console.log(`Fetch to get ${JSON.stringify(argumentsList, null, 2)}`);
-      // Expected output: "Calculate sum: 1,2"
-
       const returned = await target(...argumentsList) as Response;
 
       if (returned.url.match(friendsRegex)) {

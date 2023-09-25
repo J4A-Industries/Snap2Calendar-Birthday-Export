@@ -195,8 +195,6 @@ export const DatagridToolbar: FC<ToolbarProps> = (
       });
     });
 
-    console.log(file);
-
     const link = document.createElement('a');
     const url = URL.createObjectURL(file);
 

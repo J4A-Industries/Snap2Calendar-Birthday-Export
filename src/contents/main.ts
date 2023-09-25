@@ -38,16 +38,12 @@ const init = async () => {
     });
   }
 
-  console.log('Got the friends!');
-
   const friends = JSON.parse(storageArea.innerText);
 
   const res = await sendToBackground({
     name: 'getFriendsRequest',
     body: friends,
   });
-
-  console.log(res);
 };
 
 init();
