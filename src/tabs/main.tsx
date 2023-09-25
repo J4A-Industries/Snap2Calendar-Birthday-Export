@@ -185,7 +185,7 @@ const main = () => {
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <h3 className="font-bold text-2xl">Your calendar has been downloaded, here&apos;s some links to popular calendars</h3>
+          <h3 className="font-bold text-2xl">Your calendar has been downloaded. Here are some links to popular calendars.</h3>
           <div className="flex justify-center align-middle h-full flex-1 gap-4">
             <a href="https://calendar.google.com/calendar/u/0/r/settings/export" target="_blank" rel="noreferrer" className="m-auto">
               <div className="btn btn-secondary flex justify-center align-middle min-h-[5em]">
