@@ -1,6 +1,5 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
 import { Storage } from '@plasmohq/storage';
-import { bgString } from '../index';
 import type { Friend } from '@/background/friendsType';
 
 export interface incomingFriend {
