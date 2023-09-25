@@ -181,7 +181,7 @@ const main = () => {
         </div>
       </div>
       <dialog id="addToCalendarModal" className="modal">
-        <div className="modal-box min-h-[20em] flex flex-col justify-center align-middle">
+        <div className="modal-box min-h-[20em] min-w-fit flex flex-col justify-center align-middle">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
@@ -204,7 +204,7 @@ const main = () => {
                 window.addCalendarToOutlookModal.showModal();
               }}
             >
-              <div className="m-auto">Open Outlook</div>
+              <div className="m-auto">Outlook Calendar</div>
               <PiMicrosoftOutlookLogoFill className="w-8 h-8 m-auto" />
             </div>
             <div
@@ -214,7 +214,7 @@ const main = () => {
                 window.addCalendarToIcloudModal.showModal();
               }}
             >
-              <div className="m-auto">Open Icloud Mail</div>
+              <div className="m-auto">Icloud Calendar</div>
               <BiLogoApple className="w-8 h-8 m-auto" />
             </div>
           </div>
@@ -278,6 +278,9 @@ const main = () => {
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
           <h3 className="font-bold text-2xl underline h-64 mb-4">
+            Icloud allows a maximum of 2 notifications per birthday.
+            {' '}
+            <br />
             To add a calendar to your ICloud, the easiest way is to email it to yourself and open it on the default mail app.
             Otherwise if you are on a mac, you can open the calendar app and import it from there.
           </h3>
