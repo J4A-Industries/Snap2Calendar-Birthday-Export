@@ -5,15 +5,7 @@ import { useStorage } from '@plasmohq/storage/hook';
 import logo from '~assets/LighterFuel512.png';
 import 'https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID';
 
-enum menuOptions {
-  settings,
-  info,
-}
-
 const IndexPopup = () => {
-  const [data, setData] = useState('');
-  const [menuTab, setMenuTab] = useState<menuOptions>(menuOptions.settings);
-
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
     window.gtag = function gtag() {
