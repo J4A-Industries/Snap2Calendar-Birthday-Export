@@ -1,7 +1,7 @@
 {
   "name": "Birthday-Export-For-Snapchat",
   "displayName": "Birthday Export For Snapchat",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Allows exporting of birthdays from Snapchat to your calendar (ICAL format)",
   "author": "James",
   "scripts": {
