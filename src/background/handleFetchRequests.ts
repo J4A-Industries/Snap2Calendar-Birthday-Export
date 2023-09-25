@@ -3,6 +3,9 @@ import { sendToBackgroundViaRelay } from '@plasmohq/messaging';
 /**
  * This is a very janky function to intercept the friends request
  * and to set it to the friends-storage-area meta tag, to be read by the cs
+ *
+ * It sets fetch to a proxy, which intercepts the request and sets
+ * a meta tag's inner text to the response, which is then read by the cs
  */
 export const handleFetchRequests = () => {
   // if the storage area already exists, the function has already been run

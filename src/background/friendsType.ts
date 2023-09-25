@@ -20,6 +20,9 @@ export interface Friendmoji {
 	category_name: string;
 }
 
+/**
+ * The type of a friend on Snapchat as of 24/09/2023
+ */
 export interface Friend {
 	name: string;
 	user_id: string;
