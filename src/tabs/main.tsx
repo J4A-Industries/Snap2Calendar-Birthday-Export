@@ -12,7 +12,7 @@ import type {
   GridRowSelectionModel,
   GridSortModel,
 } from '@mui/x-data-grid';
-import { BiLogoGoogle } from 'react-icons/bi';
+import { BiLogoGoogle, BiLogoGmail, BiLogoApple } from 'react-icons/bi';
 import { PiMicrosoftOutlookLogoFill } from 'react-icons/pi';
 import { ThemeProvider } from '@mui/material';
 import type { storedFriends } from '@/background/messages/getFriendsRequest';
@@ -181,11 +181,60 @@ const main = () => {
         </div>
       </div>
       <dialog id="addToCalendarModal" className="modal">
+        <div className="modal-box min-h-[20em] flex flex-col justify-center align-middle">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <h3 className="font-bold text-2xl mb-2">Your calendar has been downloaded.</h3>
+          <div className="flex justify-center align-middle flex-1 gap-4 w-full m-auto">
+            <div
+              className="btn btn-secondary flex justify-center align-middle min-h-[5em] flex-col m-auto"
+              onClick={() => {
+                window.addToCalendarModal.close();
+                window.addCalendarToGoogleModal.showModal();
+              }}
+            >
+              <div className="m-auto">Google Calendar</div>
+              <BiLogoGoogle className="w-8 h-8 m-auto" />
+            </div>
+            <div
+              className="btn btn-secondary flex justify-center align-middle min-h-[5em] flex-col m-auto"
+              onClick={() => {
+                window.addToCalendarModal.close();
+                window.addCalendarToOutlookModal.showModal();
+              }}
+            >
+              <div className="m-auto">Open Outlook</div>
+              <PiMicrosoftOutlookLogoFill className="w-8 h-8 m-auto" />
+            </div>
+            <div
+              className="btn btn-secondary flex justify-center align-middle min-h-[5em] flex-col m-auto"
+              onClick={() => {
+                window.addToCalendarModal.close();
+                window.addCalendarToIcloudModal.showModal();
+              }}
+            >
+              <div className="m-auto">Open Icloud Mail</div>
+              <BiLogoApple className="w-8 h-8 m-auto" />
+            </div>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+      <dialog id="addCalendarToGoogleModal" className="modal">
         <div className="modal-box min-h-[20em] flex flex-col">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <h3 className="font-bold text-2xl">Your calendar has been downloaded. Here are some links to popular calendars.</h3>
+          <h3 className="font-bold text-2xl underline h-64 mb-4">
+            Note: For notifications to work in google calendar, upload the file twice.
+            {' '}
+            <br />
+            this will not add the birthdays twice.
+          </h3>
+
           <div className="flex justify-center align-middle h-full flex-1 gap-4">
             <a href="https://calendar.google.com/calendar/u/0/r/settings/export" target="_blank" rel="noreferrer" className="m-auto">
               <div className="btn btn-secondary flex justify-center align-middle min-h-[5em]">
@@ -193,10 +242,63 @@ const main = () => {
                 <BiLogoGoogle className="w-8 h-8 m-auto" />
               </div>
             </a>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+      <dialog id="addCalendarToOutlookModal" className="modal">
+        <div className="modal-box min-h-[20em] flex flex-col">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <h3 className="font-bold text-2xl underline h-64 mb-4">
+            Note: For notifications to work in outlook, you can only select 1 day before.
+            <br />
+            Selecting any other options will break the 1 day before notification.
+          </h3>
+
+          <div className="flex justify-center align-middle h-full flex-1 gap-4">
             <a href="https://outlook.office365.com/calendar/addcalendar" target="_blank" rel="noreferrer" className="m-auto">
               <div className="btn btn-secondary flex justify-center align-middle min-h-[5em]">
                 <div className="m-auto">Open Outlook Calendar</div>
                 <PiMicrosoftOutlookLogoFill className="w-8 h-8 m-auto" />
+              </div>
+            </a>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+      <dialog id="addCalendarToIcloudModal" className="modal">
+        <div className="modal-box min-h-[20em] flex flex-col">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <h3 className="font-bold text-2xl underline h-64 mb-4">
+            To add a calendar to your ICloud, the easiest way is to email it to yourself and open it on the default mail app.
+            Otherwise if you are on a mac, you can open the calendar app and import it from there.
+          </h3>
+
+          <div className="flex justify-center align-middle h-full flex-1 gap-4">
+            <a href="https://outlook.office365.com/" target="_blank" rel="noreferrer" className="m-auto">
+              <div className="btn btn-secondary flex justify-center align-middle min-h-[5em]">
+                <div className="m-auto">Open Outlook</div>
+                <PiMicrosoftOutlookLogoFill className="w-8 h-8 m-auto" />
+              </div>
+            </a>
+            <a href="https://mail.google.com/" target="_blank" rel="noreferrer" className="m-auto">
+              <div className="btn btn-secondary flex justify-center align-middle min-h-[5em]">
+                <div className="m-auto">Open Gmail</div>
+                <BiLogoGmail className="w-8 h-8 m-auto" />
+              </div>
+            </a>
+            <a href="https://www.icloud.com/mail/" target="_blank" rel="noreferrer" className="m-auto">
+              <div className="btn btn-secondary flex justify-center align-middle min-h-[5em]">
+                <div className="m-auto">Open Icloud Mail</div>
+                <BiLogoApple className="w-8 h-8 m-auto" />
               </div>
             </a>
           </div>
