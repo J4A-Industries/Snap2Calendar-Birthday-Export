@@ -1,9 +1,7 @@
-# Birthday Export For Snapchat
+# Snap2Calendar Birthday Export
 
-This extension was created in a day when I had covid so the code does not look very pretty, but some of the jankiness is required for plasmo and snapchat to play nicely.
+## What is this?
 
-## What does it do?
-
-It exports all the birthdays of your snapchat friends to an ics file that you can import into your calendar of choice (apart from iphone users who don't have macs lol).
-
-## How do I use it?
+This extension allows you to export birthdays from your snapchat friends to your calendar, in ICAL format.
+It works by intercepting the fetch requests on https://web.snapchat.com/ and extracting the friends list from the response,
+then it lets you select which birthdays you want to export and finally it lets you download the ICAL file.
