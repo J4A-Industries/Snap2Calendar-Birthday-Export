@@ -53,12 +53,3 @@ chrome.runtime.onInstalled.addListener(async (object) => {
     ]);
   }
 });
-
-chrome.browserAction.onClicked.addListener(() => {
-  chrome.tabs.create({ url: chrome.runtime.getURL('tabs/main.html') });
-  AnalyticsEvent([
-    {
-      name: 'icon_click',
-    },
-  ]);
-});
