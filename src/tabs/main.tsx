@@ -17,10 +17,10 @@ import { PiMicrosoftOutlookLogoFill } from 'react-icons/pi';
 import { ThemeProvider } from '@mui/material';
 import type { storedFriends } from '@/background/messages/getFriendsRequest';
 import type { Friend } from '@/background/friendsType';
-import 'https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID';
 import { MuiTheme } from '@/components/MuiTheme';
 import { DatagridToolbar } from '@/components/DatagridToolbar';
 import logo from '~assets/icon512.png';
+import { AnalyticsEvent } from '@/misc/GA';
 
 const dayWithSuffix = (date) => {
   if (date >= 11 && date <= 13) return `${date}th`;
@@ -100,6 +100,17 @@ const main = () => {
       setFilteredFriends(stored.friends.filter((friend) => friend.birthday));
     }
   }, [stored]);
+
+  useEffect(() => {
+    AnalyticsEvent([
+      {
+        name: 'page_view',
+        params: {
+          page: 'main',
+        },
+      },
+    ]);
+  });
 
   return (
     <ThemeProvider theme={MuiTheme}>

@@ -26,6 +26,7 @@ import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import type { Friend } from '@/background/friendsType';
 import { MuiTheme } from '@/components/MuiTheme';
+import { AnalyticsEvent } from '@/misc/GA';
 
 export type ToolbarProps = {
 	selectionModel: GridRowSelectionModel;
@@ -206,9 +207,14 @@ export const DatagridToolbar: FC<ToolbarProps> = (
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
     window.addToCalendarModal.showModal();
-    window.gtag('event', 'CalendarCreated', {
-      amount: events.length,
-    });
+    AnalyticsEvent([
+      {
+        name: 'export',
+        params: {
+          amount: events.length,
+        },
+      },
+    ]);
   };
 
   return (

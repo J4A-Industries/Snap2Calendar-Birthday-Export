@@ -138,7 +138,8 @@
       "import/prefer-default-export": 0,
       "no-shadow": "off",
       "@typescript-eslint/no-shadow": "error",
-      "no-undef": 0
+      "no-undef": 0,
+      "no-restricted-globals": 0
     }
   }
 }
