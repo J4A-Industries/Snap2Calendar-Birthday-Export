@@ -1,5 +1,6 @@
 import { Storage } from '@plasmohq/storage';
 import { handleFetchRequests } from './handleFetchRequests';
+import { AnalyticsEvent } from '@/misc/GA';
 
 try {
   const storage = new Storage();
@@ -36,14 +37,28 @@ chrome.tabs.onUpdated.addListener((e, changeInfo, tab) => {
 /**
  * When the user first installs the extension, open the main page
  */
-chrome.runtime.onInstalled.addListener((object) => {
-  const internalUrl = chrome.runtime.getURL('tabs/main.html');
-
+chrome.runtime.onInstalled.addListener(async (object) => {
   if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    const internalUrl = chrome.runtime.getURL('tabs/main.html');
     chrome.tabs.create({ url: internalUrl });
+    const platform = await chrome.runtime.getPlatformInfo();
+
+    AnalyticsEvent([
+      {
+        name: 'install',
+        params: {
+          platform: platform.os,
+        },
+      },
+    ]);
   }
 });
 
 chrome.browserAction.onClicked.addListener(() => {
   chrome.tabs.create({ url: chrome.runtime.getURL('tabs/main.html') });
+  AnalyticsEvent([
+    {
+      name: 'icon_click',
+    },
+  ]);
 });
