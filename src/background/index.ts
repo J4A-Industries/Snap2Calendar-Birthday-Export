@@ -43,3 +43,7 @@ chrome.runtime.onInstalled.addListener((object) => {
     chrome.tabs.create({ url: internalUrl });
   }
 });
+
+chrome.browserAction.onClicked.addListener(() => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('tabs/main.html') });
+});
