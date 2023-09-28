@@ -1,6 +1,11 @@
 # Snap2Calendar Birthday Export
+![Chrome Web Store Downloads](https://img.shields.io/chrome-web-store/users/bmcnbhnpmbkcpkhnmknmnkgdeodfljnc)
+![Chrome Web Store Release](https://img.shields.io/chrome-web-store/v/bmcnbhnpmbkcpkhnmknmnkgdeodfljnc)
+![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/stars/bmcnbhnpmbkcpkhnmknmnkgdeodfljnc)
 
 ![Logo](https://raw.githubusercontent.com/Acorn221/Snap2Calendar-Birthday-Export/master/assets/icon128.png)
+
+[Get It Here](https://chrome.google.com/webstore/detail/snap2calendar-birthday-ex/hejjegjbfaabkgaejceenfeeeocbocmk)
 
 ## What is this?
 
