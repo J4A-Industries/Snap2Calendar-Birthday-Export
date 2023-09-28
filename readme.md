@@ -1,7 +1,7 @@
 # Snap2Calendar Birthday Export
-![Chrome Web Store Downloads](https://img.shields.io/chrome-web-store/users/bmcnbhnpmbkcpkhnmknmnkgdeodfljnc)
-![Chrome Web Store Release](https://img.shields.io/chrome-web-store/v/bmcnbhnpmbkcpkhnmknmnkgdeodfljnc)
-![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/stars/bmcnbhnpmbkcpkhnmknmnkgdeodfljnc)
+![Chrome Web Store Downloads](https://img.shields.io/chrome-web-store/users/hejjegjbfaabkgaejceenfeeeocbocmk)
+![Chrome Web Store Release](https://img.shields.io/chrome-web-store/v/hejjegjbfaabkgaejceenfeeeocbocmk)
+![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/stars/hejjegjbfaabkgaejceenfeeeocbocmk)
 
 ![Logo](https://raw.githubusercontent.com/Acorn221/Snap2Calendar-Birthday-Export/master/assets/icon128.png)
 
