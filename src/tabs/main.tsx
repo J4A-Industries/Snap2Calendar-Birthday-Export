@@ -96,9 +96,71 @@ const main = () => {
   const [selectionModel, setSelectionModel] = useState<GridRowSelectionModel>([]);
 
   useEffect(() => {
-    if (stored) {
-      setFilteredFriends(stored.friends.filter((friend) => friend.birthday));
-    }
+    // if (stored) {
+    //   setFilteredFriends(stored.friends.filter((friend) => friend.birthday));
+    // }
+    setFilteredFriends([
+      {
+        user_id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+        name: 'SherlockLaughsALot',
+        display: 'Benedict Cumberbatch',
+        birthday: '07-19',
+      },
+      {
+        user_id: 'c621d1ef-48d8-4c6e-ae5e-9af369f4bf04',
+        name: 'DameMaggieTbag',
+        display: 'Dame Maggie Smith',
+        birthday: '12-28',
+      },
+      {
+        user_id: 'a25f90c6-7c5e-4d6f-96c5-6a0c7c3ed8ce',
+        name: 'MrBeanTakesTheStage',
+        display: 'Rowan Atkinson',
+        birthday: '01-06',
+      },
+      {
+        user_id: '9b1030e6-3c28-4c13-84e4-e8d135f8ea3c',
+        name: 'ElbaTheJoker',
+        display: 'Idris Elba',
+        birthday: '09-06',
+      },
+      {
+        user_id: 'd5518d57-475e-42e7-98f6-ebf126c59e61',
+        name: 'WildlifeComedyKing',
+        display: 'David Attenborough',
+        birthday: '05-08',
+      },
+      {
+        user_id: '1b85b5d7-9d0f-4b09-80f7-2c2a63de60bf',
+        name: 'LateNightChuckles',
+        display: 'James Corden',
+        birthday: '08-22',
+      },
+      {
+        user_id: '57d84488-7755-4ec1-b5bf-441cc07ce5f2',
+        name: 'JudiDancesWithLaughter',
+        display: 'Dame Judi Dench',
+        birthday: '12-09',
+      },
+      {
+        user_id: 'e83b4460-912a-4a7a-bc05-905ee1dcb890',
+        name: 'DoctorOfHilarity',
+        display: 'David Tennant',
+        birthday: '04-18',
+      },
+      {
+        user_id: 'e7d1c0ed-0d9b-481d-a0d1-6353bba890b5',
+        name: 'FantasticBeastlyLaughs',
+        display: 'Eddie Redmayne',
+        birthday: '01-06',
+      },
+      {
+        user_id: '8135a13f-845e-4c3a-94ef-40f0955426ab',
+        name: 'MirandaLaughsHartOut',
+        display: 'Miranda Hart',
+        birthday: '12-14',
+      },
+    ] as Friend[]);
   }, [stored]);
 
   useEffect(() => {
