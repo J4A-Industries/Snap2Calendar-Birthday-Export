@@ -29,7 +29,7 @@ export interface Friend {
 	type: number;
 	display: string;
 	birthday?: string;
-	ts?: number;
+	ts: number;
 	reverse_ts?: number;
 	direction: Direction;
 	can_see_custom_stories: boolean;
