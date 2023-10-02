@@ -100,7 +100,7 @@ const main = () => {
   const [sortModel, setSortModel] = useState<GridSortModel>([
     {
       field: 'ts',
-      sort: 'asc',
+      sort: 'desc',
     },
   ]);
   // the selection model stores an array of IDs of the selected rows
