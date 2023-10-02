@@ -22,6 +22,8 @@ import { DatagridToolbar } from '@/components/DatagridToolbar';
 import logo from '~assets/icon512.png';
 import { AnalyticsEvent } from '@/misc/GA';
 
+const webSnapchatLoginLink = 'https://accounts.snapchat.com/accounts/v2/login?continue=%2Faccounts%2Fsso%3Fclient_id%3Dweb-calling-corp--prod%26referrer%3Dhttps%253A%252F%252Fweb.snapchat.com%252F';
+
 const dayWithSuffix = (date) => {
   if (date >= 11 && date <= 13) return `${date}th`;
 
@@ -52,6 +54,15 @@ const columns: GridColDef[] = [
     field: 'display',
     headerName: 'Display Name',
     width: 250,
+  },
+  {
+    field: 'ts',
+    headerName: 'Date Added',
+    width: 150,
+    renderCell: (params: GridValueGetterParams) => {
+      const dateTime = new Date(params.value).toLocaleDateString();
+      return dateTime;
+    },
   },
   {
     field: 'birthday',
@@ -88,7 +99,7 @@ const main = () => {
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const [sortModel, setSortModel] = useState<GridSortModel>([
     {
-      field: 'birthday',
+      field: 'ts',
       sort: 'asc',
     },
   ]);
@@ -132,7 +143,7 @@ const main = () => {
       {' '}
       {new Date(stored?.storedAt).toLocaleDateString()}
     </div>
-    <a href="https://web.snapchat.com/" target="_blank" rel="noreferrer">
+    <a href={webSnapchatLoginLink} target="_blank" rel="noreferrer">
       <div className="btn btn-primary">
         Update Now
       </div>
@@ -140,7 +151,7 @@ const main = () => {
   </>
 
 								) : (
-  <a href="https://web.snapchat.com/" target="_blank" rel="noreferrer">
+  <a href={webSnapchatLoginLink} target="_blank" rel="noreferrer">
     <div className="btn btn-primary">
       Click here to open snapchat&apos;s website, login and then come back here
     </div>
