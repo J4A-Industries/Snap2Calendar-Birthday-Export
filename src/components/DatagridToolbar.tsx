@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC } from 'react';
+import { useState, type FC } from 'react';
 import {
   GridToolbarContainer,
   GridToolbarQuickFilter,
@@ -16,7 +16,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
-import 'https://www.googletagmanager.com/gtag/js?id=$PLASMO_PUBLIC_GTAG_ID';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -55,20 +54,6 @@ const MenuProps = {
 export const DatagridToolbar: FC<ToolbarProps> = (
   { selectionModel, setSelectionModel, filteredFriends },
 ) => {
-  /**
-   * Add Google Analytics to the page
-   */
-  useEffect(() => {
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag() {
-      window.dataLayer.push(arguments) // eslint-disable-line
-    };
-    window.gtag('js', new Date());
-    window.gtag('config', process.env.PLASMO_PUBLIC_GTAG_ID, {
-      page_path: '/tabs/main',
-    });
-  }, []);
-
   // add until should be set to current date + 5 years
   const [addUntil, setAddUntil] = useState<Date>(() => {
     const date = new Date();
