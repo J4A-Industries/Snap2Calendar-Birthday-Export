@@ -1,7 +1,7 @@
 {
   "name": "Snap2Calendar-Birthday-Export",
   "displayName": "Snap2Calendar Birthday Export",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Allows exporting of birthdays from Snapchat to your calendar (ICAL format)",
   "author": "James",
   "scripts": {
@@ -55,8 +55,7 @@
     ],
     "permissions": [
       "storage",
-      "scripting",
-      "tabs"
+      "scripting"
     ],
     "icons": {
       "64": "/assets/icon64.png",
