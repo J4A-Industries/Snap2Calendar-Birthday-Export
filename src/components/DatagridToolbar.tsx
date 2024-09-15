@@ -310,7 +310,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         onClick={() => exportToCalendar()}
         disabled={!canExport}
       >
-        Export Birthdays To Calendar
+        Export Birthdays To Calendar (ICS)
       </Button>
       <Button
         style={{
@@ -322,7 +322,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         onClick={() => exportToCSV()}
         disabled={!canExport}
       >
-        Export Birthdays To CSV
+        CSV
       </Button>
     </GridToolbarContainer>
   );
