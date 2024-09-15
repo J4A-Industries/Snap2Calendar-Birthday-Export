@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react';
+import { useMemo, useState, type FC } from 'react';
 import {
   GridToolbarContainer,
   GridToolbarQuickFilter,
@@ -65,6 +65,10 @@ export const DatagridToolbar: FC<ToolbarProps> = (
     'week' as AlarmTypes,
   ]);
 
+  const selectedFriends = useMemo(() => filteredFriends.filter((friend) => selectionModel.includes(friend.user_id)), [selectionModel, filteredFriends]);
+
+  const canExport = useMemo(() => selectedFriends.length > 0, [selectedFriends]);
+
   const handleChange = (event: SelectChangeEvent<typeof selectedAlarms>) => {
     const {
       target: { value },
@@ -75,12 +79,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
   };
 
   const exportToCSV = async () => {
-    // get all the selected friends from the filtered friends
-    const selectedFriends = filteredFriends.filter((friend) => selectionModel.includes(friend.user_id));
-
-    // creating a list of events from the selected friends
-    // const events: EventAttributes[] = selectedFriends.map((user) => {
-    const rows: [] = selectedFriends.map((user) => {
+    const rows = selectedFriends.map((user) => {
       // Parse birthday string to get month and day
       const [month, day] = user.birthday.split('-').map(Number);
 
@@ -91,25 +90,12 @@ export const DatagridToolbar: FC<ToolbarProps> = (
       // Set the start time to midnight (00:00) of the birthday
       date.setHours(0, 0, 0, 0);
 
-      // Convert start and end times to DateArray
-      const startDateArray: DateArray = [
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate(),
-      ];
-
-      const endDateArray: DateArray = [
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate(),
-      ];
-
       // Create a row from birthday
       const rowAttribute = {
         Name: user.display,
         Username: user.name,
         Birthday: date.toLocaleDateString(),
-        Snapchat: `https://snapchat.com/add/${user.name}`,
+        AddLink: `https://snapchat.com/add/${user.name}`,
       };
       
       return rowAttribute;
@@ -118,8 +104,9 @@ export const DatagridToolbar: FC<ToolbarProps> = (
     const fileName = 'SnapchatFriendsBirthdays.csv';
 
     const file: File = await new Promise((resolve, reject) => {
-      const csv = rows.map((row) => Object.values(row).join(',')).join('\n');
-      console.log(csv)
+      const csvHeader = Object.keys(rows[0]).join(',');
+      const csvContents = rows.map((row) => Object.values(row).join(',')).join('\n');
+      const csv = `${csvHeader}\n${csvContents}`;
       const csvData = new Blob([csv], { type: 'text/csv' });
       resolve(new File([csvData], fileName, { type: 'text/csv' }));
     });
@@ -190,10 +177,6 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         ...outAlarm,
       };
     });
-
-    // get all the selected friends from the filtered friends
-    const selectedFriends = filteredFriends.filter((friend) => selectionModel.includes(friend.user_id));
-
     // creating a list of events from the selected friends
     const events: EventAttributes[] = selectedFriends.map((user) => {
       // Parse birthday string to get month and day
@@ -317,25 +300,27 @@ export const DatagridToolbar: FC<ToolbarProps> = (
       <div className="flex-1" />
       <Button
         style={{
-          backgroundColor: MuiTheme.palette.secondary.main, // uses the primary color as background
-          color: MuiTheme.palette.text.primary, // uses the primary text color
-        }}
-        variant="contained"
-        startIcon={<AiOutlineDownload className="w-8 h-8" />}
-        onClick={() => exportToCalendar()}
-      >
-        Export Birthdays To Calendar
-      </Button>
-      <Button
-        style={{
-          backgroundColor: MuiTheme.palette.secondary.main, // uses the primary color as background
-          color: MuiTheme.palette.text.primary, // uses the primary text color
+          backgroundColor: canExport ? MuiTheme.palette.secondary.dark : MuiTheme.palette.action.disabled,
+          color: MuiTheme.palette.text.primary,
         }}
         variant="contained"
         startIcon={<AiOutlineDownload className="w-8 h-8" />}
         onClick={() => exportToCSV()}
+        disabled={!canExport}
       >
-        Export Birthdays To CSV
+        CSV
+      </Button>
+      <Button
+        style={{
+          backgroundColor: canExport ? MuiTheme.palette.primary.main : MuiTheme.palette.action.disabled,
+          color: MuiTheme.palette.text.primary,
+        }}
+        variant="contained"
+        startIcon={<AiOutlineDownload className="w-8 h-8" />}
+        onClick={() => exportToCalendar()}
+        disabled={!canExport}
+      >
+        Export Birthdays To Calendar (ICS)
       </Button>
     </GridToolbarContainer>
   );
