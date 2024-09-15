@@ -69,8 +69,6 @@ export const DatagridToolbar: FC<ToolbarProps> = (
 
   const canExport = useMemo(() => selectedFriends.length > 0, [selectedFriends]);
 
-  const buttonColour = useMemo(() => (canExport ? MuiTheme.palette.secondary.main : MuiTheme.palette.action.disabled), [canExport]);
-
   const handleChange = (event: SelectChangeEvent<typeof selectedAlarms>) => {
     const {
       target: { value },
@@ -97,7 +95,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         Name: user.display,
         Username: user.name,
         Birthday: date.toLocaleDateString(),
-        Snapchat: `https://snapchat.com/add/${user.name}`,
+        AddLink: `https://snapchat.com/add/${user.name}`,
       };
       
       return rowAttribute;
@@ -302,19 +300,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
       <div className="flex-1" />
       <Button
         style={{
-          backgroundColor: buttonColour,
-          color: MuiTheme.palette.text.primary,
-        }}
-        variant="contained"
-        startIcon={<AiOutlineDownload className="w-8 h-8" />}
-        onClick={() => exportToCalendar()}
-        disabled={!canExport}
-      >
-        Export Birthdays To Calendar (ICS)
-      </Button>
-      <Button
-        style={{
-          backgroundColor: buttonColour,
+          backgroundColor: canExport ? MuiTheme.palette.secondary.dark : MuiTheme.palette.action.disabled,
           color: MuiTheme.palette.text.primary,
         }}
         variant="contained"
@@ -323,6 +309,18 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         disabled={!canExport}
       >
         CSV
+      </Button>
+      <Button
+        style={{
+          backgroundColor: canExport ? MuiTheme.palette.primary.main : MuiTheme.palette.action.disabled,
+          color: MuiTheme.palette.text.primary,
+        }}
+        variant="contained"
+        startIcon={<AiOutlineDownload className="w-8 h-8" />}
+        onClick={() => exportToCalendar()}
+        disabled={!canExport}
+      >
+        Export Birthdays To Calendar (ICS)
       </Button>
     </GridToolbarContainer>
   );
