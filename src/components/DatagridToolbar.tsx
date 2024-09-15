@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FC } from 'react';
+import { useMemo, useState, type FC } from 'react';
 import {
   GridToolbarContainer,
   GridToolbarQuickFilter,
