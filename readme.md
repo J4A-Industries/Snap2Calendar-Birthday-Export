@@ -15,9 +15,6 @@ then it lets you select which birthdays you want to export and finally it lets y
 
 ![Promo-image-1](https://raw.githubusercontent.com/Acorn221/Snap2Calendar-Birthday-Export/master/assets/promo1.png)
 
-## Todo
+## Shoutouts
 
-- [ ] Get the user to select which calendar to export to at the start, then limit notification options based off of the calendar type
-  - [ ] Google allows all the notifications, but requires a calendar file to be uploaded twice
-  - [ ] Outlook only allows one, 1 day before
-  - [ ] ICloud allows 2 whenever
+ - @tadhgj for creating the CSV export feature 🎉🎉
