@@ -218,7 +218,7 @@ const main = () => {
           ) : (
             <div className="flex-1 size-full flex justify-center align-middle">
               <div className="text-white text-center p-6 border border-white rounded-xl m-auto max-w-2xl">
-                <h3 className="text-xl font-light mb-4">Welcome to the Snapchat Friends&apos; Birthday Tracker</h3>
+                <h3 className="text-xl font-light mb-4">Welcome to the Snapchat Birthday Exporter</h3>
 
                 <p className="text-gray-300 mb-6">
                   This extension saves your Snapchat friends&apos; birthdays to your calendar so you never miss sending them
