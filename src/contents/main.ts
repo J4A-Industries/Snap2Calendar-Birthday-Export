@@ -6,7 +6,13 @@ import { sendToBackground } from '@plasmohq/messaging';
  * Running in 'main' world, which means it has access to the DOM
  */
 export const config: PlasmoCSConfig = {
-  matches: ['*://web.snapchat.com/*'],
+  matches: [
+    '*://www.snapchat.com/web/*',
+    '*://www.snapchat.com/web',
+    '*://snapchat.com/web/*',
+    '*://snapchat.com/web',
+    'https://*.snapchat.com/web*',
+  ],
   run_at: 'document_idle',
   css: ['./style.css'],
 };

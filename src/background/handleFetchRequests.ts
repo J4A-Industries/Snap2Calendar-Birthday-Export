@@ -1,5 +1,3 @@
-import { sendToBackgroundViaRelay } from '@plasmohq/messaging';
-
 /**
  * This is a very janky function to intercept the friends request
  * and to set it to the friends-storage-area meta tag, to be read by the cs
@@ -14,7 +12,6 @@ export const handleFetchRequests = () => {
   const friendsRegex = /https?:\/\/web\.snapchat\.com\/ami\/friends(\?.*)?/;
 
   const nativeFetch = window.fetch;
-
   const storageArea = document.createElement('meta');
 
   storageArea.setAttribute('id', 'friends-storage-area');

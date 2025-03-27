@@ -22,7 +22,6 @@
     "daisyui": "^3.9.4",
     "dayjs": "^1.11.13",
     "ics": "^3.8.1",
-    "plasmo": "^0.84.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.12.0",
@@ -45,17 +44,21 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "plasmo": "^0.90.3",
     "postcss": "8.4.21",
     "prettier": "2.8.3",
+    "sharp": "^0.33.5",
     "typescript": "4.9.4"
   },
   "manifest": {
     "host_permissions": [
-      "*://web.snapchat.com/*"
+      "*://*.snapchat.com/*",
+      "https://*.snapchat.com/web/*"
     ],
     "permissions": [
       "storage",
-      "scripting"
+      "scripting",
+      "tabs"
     ],
     "icons": {
       "64": "/assets/icon64.png",
@@ -63,13 +66,9 @@
     },
     "externally_connectable": {
       "matches": [
-        "*://web.snapchat.com/*"
-      ]
-    },
-    "browser_specific_settings": {
-      "gecko": {
-        "id": "**change me for firefox**"
-      }
+        "*://*.snapchat.com/*",
+        "https://*.snapchat.com/web/*"
+        ]
     }
   },
   "postcss": {

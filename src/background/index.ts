@@ -10,7 +10,6 @@ try {
 }
 
 const inject = async (tabId: number) => {
-  console.log('Injecting');
   chrome.scripting.executeScript(
     {
       target: {
@@ -19,17 +18,17 @@ const inject = async (tabId: number) => {
       world: 'MAIN', // MAIN in order to access the window object
       func: handleFetchRequests,
     },
-    () => {
-      console.log('Injected');
-    },
   );
 };
 
+// More permissive regex that handles various snapchat.com paths including /web with hash fragments
+const isSnapchatWebUrl = (url: string): boolean => url.match(/^(?:https?:\/\/)?(?:www\.)?snapchat\.com\/web(?:[/#].*)?$/i) !== null;
+
 /**
- * If the user is on https://web.snapchat.com/, inject the script
+ * If the user is on https://snapchat.com/web, inject the script
  */
 chrome.tabs.onUpdated.addListener((e, changeInfo, tab) => {
-  if (tab.url && tab.url.match(/https?:\/\/web\.snapchat\.com\/.*?/)) {
+  if (tab.url && isSnapchatWebUrl(tab.url)) {
     inject(e);
   }
 });
