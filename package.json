@@ -58,7 +58,7 @@
     "permissions": [
       "storage",
       "scripting",
-      "tabs"
+      "activeTab"
     ],
     "icons": {
       "64": "/assets/icon64.png",

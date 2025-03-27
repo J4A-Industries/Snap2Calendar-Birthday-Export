@@ -1,3 +1,4 @@
+import { sendToBackgroundViaRelay } from '@plasmohq/messaging';
 import type { PlasmoCSConfig, PlasmoGetStyle } from 'plasmo';
 // import styleText from 'data-text:~src/contents/style.css';
 
@@ -6,10 +7,44 @@ import type { PlasmoCSConfig, PlasmoGetStyle } from 'plasmo';
  * TODO: Figure out why and use content scripts instead of script injection.
  */
 export const config: PlasmoCSConfig = {
-  matches: ['*://web.snapchat.com/*'],
-  run_at: 'document_idle',
-  css: ['./style.css'],
+  matches: [
+    '*://www.snapchat.com/web/*',
+    '*://www.snapchat.com/web',
+    '*://snapchat.com/web/*',
+    '*://snapchat.com/web',
+    'https://*.snapchat.com/web*',
+  ],
+  run_at: 'document_start',
   world: 'MAIN',
 };
 
-console.log('Hi i am an injected script!');
+export const handleFetchRequests = () => {
+  const friendsRegex = /https?:\/\/web\.snapchat\.com\/ami\/friends(\?.*)?/;
+
+  const nativeFetch = window.fetch;
+
+  const handleNewIntercepted = async (data: any) => {
+    sendToBackgroundViaRelay({
+      name: 'getFriendsRequest',
+      body: data,
+    });
+  };
+
+  const handler = {
+    async apply(target, thisArg, argumentsList) {
+      const returned = await target(...argumentsList) as Response;
+
+      if (returned.url.match(friendsRegex)) {
+        const cloned = returned.clone();
+        const data = await cloned.json();
+        handleNewIntercepted(data);
+      }
+
+      return returned;
+    },
+  };
+
+  const proxy = new Proxy(nativeFetch, handler);
+
+  window.fetch = proxy;
+};
