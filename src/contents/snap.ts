@@ -24,7 +24,7 @@ export const handleFetchRequests = () => {
   const nativeFetch = window.fetch;
 
   const handleNewIntercepted = async (data: any) => {
-    sendToBackgroundViaRelay({
+    await sendToBackgroundViaRelay({
       name: 'getFriendsRequest',
       body: data,
     });
@@ -48,3 +48,4 @@ export const handleFetchRequests = () => {
 
   window.fetch = proxy;
 };
+handleFetchRequests();
