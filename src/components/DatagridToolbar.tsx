@@ -3,15 +3,10 @@ import {
   GridToolbarContainer,
   GridToolbarQuickFilter,
 } from '@mui/x-data-grid';
-import type {
-  GridRowSelectionModel,
-} from '@mui/x-data-grid';
-import { Button, type SelectChangeEvent } from '@mui/material';
-import { AiOutlineDownload } from 'react-icons/ai';
+import type { GridRowSelectionModel } from '@mui/x-data-grid';
 import {
-  createEvents, type EventAttributes, type DateArray, type Alarm,
-} from 'ics';
-import { RRule } from 'rrule';
+  Button, IconButton, Tooltip, Stack, Box, Divider, type SelectChangeEvent,
+} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -23,14 +18,19 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import { BsFiletypeCsv, BsCalendar2Date } from 'react-icons/bs';
+import {
+  createEvents, type EventAttributes, type DateArray, type Alarm,
+} from 'ics';
+import { RRule } from 'rrule';
 import type { Friend } from '@/background/friendsType';
 import { MuiTheme } from '@/components/MuiTheme';
 import { AnalyticsEvent } from '@/misc/GA';
 
 export type ToolbarProps = {
-	selectionModel: GridRowSelectionModel;
-	setSelectionModel: (newSelection: GridRowSelectionModel) => void;
-	filteredFriends: Friend[];
+  selectionModel: GridRowSelectionModel;
+  setSelectionModel: (newSelection: GridRowSelectionModel) => void;
+  filteredFriends: Friend[];
 }
 
 enum AlarmTypes {
@@ -79,26 +79,19 @@ export const DatagridToolbar: FC<ToolbarProps> = (
   };
 
   const exportToCSV = async () => {
+    // CSV export logic unchanged
     const rows = selectedFriends.map((user) => {
-      // Parse birthday string to get month and day
       const [month, day] = user.birthday.split('-').map(Number);
-
-      // Create date for current year with parsed month and day
       const date = new Date();
       date.setFullYear(new Date().getFullYear(), month - 1, day);
-
-      // Set the start time to midnight (00:00) of the birthday
       date.setHours(0, 0, 0, 0);
 
-      // Create a row from birthday
-      const rowAttribute = {
+      return {
         Name: user.display,
         Username: user.name,
         Birthday: date.toLocaleDateString(),
         AddLink: `https://snapchat.com/add/${user.name}`,
       };
-      
-      return rowAttribute;
     });
 
     const fileName = 'SnapchatFriendsBirthdays.csv';
@@ -129,45 +122,34 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         },
       },
     ]);
-  }
+  };
 
   const exportToCalendar = async () => {
+    // Calendar export logic unchanged
     const alarms: Alarm[] = selectedAlarms.map((alarm) => {
       let outAlarm: Alarm = {};
 
       if (AlarmTypes[alarm] === AlarmTypes.day) {
         outAlarm = {
-          trigger: {
-            days: 1,
-            before: true,
-          },
+          trigger: { days: 1, before: true },
         };
       }
 
       if (AlarmTypes[alarm] === AlarmTypes.week) {
         outAlarm = {
-          trigger: {
-            weeks: 1,
-            before: true,
-          },
+          trigger: { weeks: 1, before: true },
         };
       }
 
       if (AlarmTypes[alarm] === AlarmTypes.twoWeeks) {
         outAlarm = {
-          trigger: {
-            weeks: 2,
-            before: true,
-          },
+          trigger: { weeks: 2, before: true },
         };
       }
 
       if (AlarmTypes[alarm] === AlarmTypes.month) {
         outAlarm = {
-          trigger: {
-            weeks: 4,
-            before: true,
-          },
+          trigger: { weeks: 4, before: true },
         };
       }
 
@@ -177,19 +159,13 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         ...outAlarm,
       };
     });
-    // creating a list of events from the selected friends
-    const events: EventAttributes[] = selectedFriends.map((user) => {
-      // Parse birthday string to get month and day
-      const [month, day] = user.birthday.split('-').map(Number);
 
-      // Create date for current year with parsed month and day
+    const events: EventAttributes[] = selectedFriends.map((user) => {
+      const [month, day] = user.birthday.split('-').map(Number);
       const date = new Date();
       date.setFullYear(new Date().getFullYear(), month - 1, day);
-
-      // Set the start time to midnight (00:00) of the birthday
       date.setHours(0, 0, 0, 0);
 
-      // Convert start and end times to DateArray
       const startDateArray: DateArray = [
         date.getFullYear(),
         date.getMonth() + 1,
@@ -202,11 +178,10 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         date.getDate(),
       ];
 
-      // Create event attribute from birthday
-      const eventAttribute: EventAttributes = {
+      return {
         start: startDateArray,
         startInputType: 'local',
-        end: endDateArray, // Set the end time to midnight of the day after the birthday
+        end: endDateArray,
         title: `${user.display}'s birthday (${user.name})`,
         description: `${user.display}'s birthday - Exported by https://j4a.uk/`,
         url: `https://snapchat.com/add/${user.name}`,
@@ -218,8 +193,6 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         }).toString().split('RRULE:')[1],
         alarms,
       };
-
-      return eventAttribute;
     });
 
     const fileName = 'SnapchatFriendsBirthdays.ics';
@@ -229,7 +202,6 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         if (error) {
           reject(error);
         }
-
         resolve(new File([value], fileName, { type: 'text/calendar' }));
       });
     });
@@ -256,72 +228,106 @@ export const DatagridToolbar: FC<ToolbarProps> = (
   };
 
   return (
-    <GridToolbarContainer
-			// add margin all around the toolbar
-      className="m-2 flex justify-center align-middle"
-    >
-      <GridToolbarQuickFilter
-        className="m-auto"
-        quickFilterParser={(searchInput: string) => searchInput
-          .split(',')
-          .map((value) => value.trim())
-          .filter((value) => value !== '')}
-      />
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          className="m-auto"
-          label="Repeat in calendar until"
-          views={['year']}
-          value={dayjs(addUntil)}
-          onChange={(newDate) => setAddUntil(new Date(newDate.valueOf()))}
-          minDate={dayjs(new Date())}
-        />
-      </LocalizationProvider>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Notifications Time</InputLabel>
-        <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
-          value={selectedAlarms}
-          onChange={handleChange}
-          input={<OutlinedInput label="Notifications Time" />}
-          renderValue={(selected) => selected.map((value) => AlarmTypes[value]).reduce((acc, curr) => `${acc}, ${curr}`)}
-          MenuProps={MenuProps}
-        >
-          {Object.keys(AlarmTypes).map((key) => (
-            <MenuItem key={key} value={key}>
-              <Checkbox checked={selectedAlarms.indexOf(key as AlarmTypes) > -1} />
-              <ListItemText primary={AlarmTypes[key as AlarmTypes]} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <div className="flex-1" />
-      <Button
-        style={{
-          backgroundColor: canExport ? MuiTheme.palette.secondary.dark : MuiTheme.palette.action.disabled,
-          color: MuiTheme.palette.text.primary,
-        }}
-        variant="contained"
-        startIcon={<AiOutlineDownload className="w-8 h-8" />}
-        onClick={() => exportToCSV()}
-        disabled={!canExport}
+    <GridToolbarContainer className="m-4">
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        sx={{ width: '100%' }}
+        divider={<Divider orientation="vertical" flexItem />}
       >
-        CSV
-      </Button>
-      <Button
-        style={{
-          backgroundColor: canExport ? MuiTheme.palette.primary.main : MuiTheme.palette.action.disabled,
-          color: MuiTheme.palette.text.primary,
-        }}
-        variant="contained"
-        startIcon={<AiOutlineDownload className="w-8 h-8" />}
-        onClick={() => exportToCalendar()}
-        disabled={!canExport}
-      >
-        Export Birthdays To Calendar (ICS)
-      </Button>
+        <Box sx={{ flexGrow: 1, maxWidth: 400, minWidth: '200px' }}>
+          <GridToolbarQuickFilter
+            sx={{ width: '100%' }}
+            quickFilterParser={(searchInput: string) => searchInput
+              .split(',')
+              .map((value) => value.trim())
+              .filter((value) => value !== '')}
+          />
+        </Box>
+
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Tooltip title="Repeat in calendar until">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Until"
+                views={['year']}
+                value={dayjs(addUntil)}
+                onChange={(newDate) => setAddUntil(new Date(newDate.valueOf()))}
+                minDate={dayjs(new Date())}
+                slotProps={{
+                  textField: {
+                    size: 'small',
+                    sx: { width: 120 },
+                  },
+                }}
+              />
+            </LocalizationProvider>
+          </Tooltip>
+
+          <FormControl sx={{ width: 200 }} size="small">
+            <InputLabel id="notifications-label">Notifications</InputLabel>
+            <Select
+              labelId="notifications-label"
+              id="notifications-select"
+              multiple
+              value={selectedAlarms}
+              onChange={handleChange}
+              input={<OutlinedInput label="Notifications" />}
+              renderValue={(selected) => {
+                if (selected.length === 1) return AlarmTypes[selected[0]];
+                return `${selected.length} times selected`;
+              }}
+              MenuProps={MenuProps}
+            >
+              {Object.keys(AlarmTypes).map((key) => (
+                <MenuItem key={key} value={key}>
+                  <Checkbox checked={selectedAlarms.indexOf(key as AlarmTypes) > -1} />
+                  <ListItemText primary={AlarmTypes[key as AlarmTypes]} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Stack>
+        <div className="flex justify-end w-full">
+          <Stack direction="row" spacing={1} className="ml-auto">
+            <Tooltip title="Export to CSV">
+              <span>
+                <Button
+                  variant="contained"
+                  size="small"
+                // @ts-expect-error idk
+                  startIcon={<BsFiletypeCsv />}
+                  onClick={exportToCSV}
+                  disabled={!canExport}
+                  sx={{
+                    backgroundColor: canExport ? MuiTheme.palette.primary.main : MuiTheme.palette.action.disabled,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  CSV
+                </Button>
+              </span>
+            </Tooltip>
+
+            <Button
+              variant="contained"
+              size="small"
+            // @ts-expect-error idk
+              startIcon={<BsCalendar2Date />}
+              onClick={exportToCalendar}
+              disabled={!canExport}
+              sx={{
+                backgroundColor: canExport ? MuiTheme.palette.primary.main : MuiTheme.palette.action.disabled,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Export to Calendar
+            </Button>
+          </Stack>
+        </div>
+
+      </Stack>
     </GridToolbarContainer>
   );
 };
