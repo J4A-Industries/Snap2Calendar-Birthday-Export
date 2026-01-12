@@ -1,9 +1,9 @@
 {
   "name": "Snap2Calendar-Birthday-Export",
   "displayName": "Snap2Calendar Birthday Export",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Allows exporting of birthdays from Snapchat to your calendar (ICAL format)",
-  "author": "James",
+  "author": "James Arnott",
   "scripts": {
     "dev": "plasmo dev",
     "build-chrome": "plasmo build",

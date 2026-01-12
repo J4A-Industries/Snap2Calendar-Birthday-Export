@@ -60,6 +60,19 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
       });
 
       console.log('[Snap2Calendar] Friend data stored successfully');
+
+      // Switch back to the extension tab using stored tab ID
+      const returnTab = await storage.get<{ tabId: number; windowId: number }>('returnTab');
+      if (returnTab?.tabId) {
+        try {
+          await chrome.tabs.update(returnTab.tabId, { active: true });
+          await chrome.windows.update(returnTab.windowId, { focused: true });
+          console.log('[Snap2Calendar] Switched back to extension tab');
+        } catch (err) {
+          console.log('[Snap2Calendar] Could not switch to return tab:', err);
+        }
+      }
+
       res.send({ success: true, count: decoded.length });
     } else {
       console.log('[Snap2Calendar] No friends decoded from response');
