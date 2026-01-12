@@ -1,5 +1,4 @@
 import { Storage } from '@plasmohq/storage';
-import { handleFetchRequests } from './handleFetchRequests';
 import { AnalyticsEvent } from '@/misc/GA';
 
 try {
@@ -9,30 +8,7 @@ try {
   console.error(`Error caught in background.js: ${err.stack}`);
 }
 
-const inject = async (tabId: number) => {
-  console.log('Injecting');
-  chrome.scripting.executeScript(
-    {
-      target: {
-        tabId,
-      },
-      world: 'MAIN', // MAIN in order to access the window object
-      func: handleFetchRequests,
-    },
-    () => {
-      console.log('Injected');
-    },
-  );
-};
-
-/**
- * If the user is on https://web.snapchat.com/, inject the script
- */
-chrome.tabs.onUpdated.addListener((e, changeInfo, tab) => {
-  if (tab.url && tab.url.match(/https?:\/\/web\.snapchat\.com\/.*?/)) {
-    inject(e);
-  }
-});
+console.log('[Snap2Calendar] Background service worker started');
 
 /**
  * When the user first installs the extension, open the main page

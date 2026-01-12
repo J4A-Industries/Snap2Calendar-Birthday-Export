@@ -22,7 +22,7 @@ import { DatagridToolbar } from '@/components/DatagridToolbar';
 import logo from '~assets/icon512.png';
 import { AnalyticsEvent } from '@/misc/GA';
 
-const webSnapchatLoginLink = 'https://accounts.snapchat.com/accounts/v2/login?continue=%2Faccounts%2Fsso%3Fclient_id%3Dweb-calling-corp--prod%26referrer%3Dhttps%253A%252F%252Fweb.snapchat.com%252F';
+const webSnapchatLoginLink = 'https://accounts.snapchat.com/accounts/v2/login?continue=%2Faccounts%2Fsso%3Fclient_id%3Dweb-calling-corp--prod%26referrer%3Dhttps%253A%252F%252Fwww.snapchat.com%252Fweb%252F';
 
 const dayWithSuffix = (date) => {
   if (date >= 11 && date <= 13) return `${date}th`;

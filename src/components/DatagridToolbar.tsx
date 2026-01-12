@@ -97,7 +97,6 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         Birthday: date.toLocaleDateString(),
         AddLink: `https://snapchat.com/add/${user.name}`,
       };
-      
       return rowAttribute;
     });
 
@@ -129,7 +128,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         },
       },
     ]);
-  }
+  };
 
   const exportToCalendar = async () => {
     const alarms: Alarm[] = selectedAlarms.map((alarm) => {
