@@ -25,7 +25,8 @@ export const decodeProtobufFriends = (base64Data: string) => {
     let shift = 0;
     while (pos < d.length) {
       const byte = d[pos];
-      result |= (byte & 0x7f) << shift;
+      // Use multiplication instead of bitshift to avoid 32-bit overflow
+      result += (byte & 0x7f) * Math.pow(2, shift);
       pos++;
       if (!(byte & 0x80)) break;
       shift += 7;
@@ -107,12 +108,28 @@ export const decodeProtobufFriends = (base64Data: string) => {
     return { month, day };
   };
 
-  const parseFriend = (d: Uint8Array) => {
+  const parseFriend = (d: Uint8Array, debugFirst = false) => {
     const fields = parseFields(d);
     let username = '';
     let displayName = '';
     let birthdayMonth: number | undefined;
     let birthdayDay: number | undefined;
+    let addedTimestamp: number | undefined;
+
+    // Debug: log all field numbers present
+    if (debugFirst) {
+      console.log('[Decoder] Friend fields present:', Array.from(fields.keys()));
+      fields.forEach((values, fieldNum) => {
+        values.forEach((v) => {
+          if (v.wireType === 0) {
+            console.log(`[Decoder] Field ${fieldNum} (varint):`, v.value);
+          } else if (v.wireType === 2) {
+            const str = tryDecode(v.value);
+            console.log(`[Decoder] Field ${fieldNum} (bytes, len=${v.value.length}):`, str || '[binary]');
+          }
+        });
+      });
+    }
 
     const uf = fields.get(2);
     if (uf) {
@@ -154,7 +171,19 @@ export const decodeProtobufFriends = (base64Data: string) => {
       }
     }
 
-    return username ? { username, displayName, birthdayMonth, birthdayDay } : null;
+    // Field 6: timestamp when friend was added
+    const tf = fields.get(6);
+    if (tf) {
+      for (const { wireType, value } of tf) {
+        if (wireType === 0 && value > 1000000000) { // sanity check: after year 2001
+          // Convert to milliseconds if it's in seconds (less than year 3000 in seconds)
+          addedTimestamp = value < 100000000000 ? value * 1000 : value;
+          break;
+        }
+      }
+    }
+
+    return username ? { username, displayName, birthdayMonth, birthdayDay, addedTimestamp } : null;
   };
 
   const friends: Array<{
@@ -162,17 +191,20 @@ export const decodeProtobufFriends = (base64Data: string) => {
     displayName: string;
     birthdayMonth?: number;
     birthdayDay?: number;
+    addedTimestamp?: number;
   }> = [];
   const seen = new Set<string>();
 
   let pos = 0;
+  let debuggedFirst = false;
   while (pos < data.length - 10) {
     if (data[pos] === 0x12) {
       try {
         const [length, newPos] = readVarint(data, pos + 1);
         if (length > 50 && length < 2000 && newPos + length <= data.length) {
-          const friend = parseFriend(data.slice(newPos, newPos + length));
+          const friend = parseFriend(data.slice(newPos, newPos + length), !debuggedFirst);
           if (friend && !seen.has(friend.username)) {
+            if (!debuggedFirst) debuggedFirst = true;
             friends.push(friend);
             seen.add(friend.username);
           }
@@ -198,7 +230,7 @@ export const convertToFriendFormat = (decoded: DecodedFriend[]) => ({
       f.birthdayMonth && f.birthdayDay
         ? `${f.birthdayMonth.toString().padStart(2, '0')}-${f.birthdayDay.toString().padStart(2, '0')}`
         : undefined,
-    ts: Date.now(),
+    ts: f.addedTimestamp || Date.now(),
     direction: 'OUTGOING',
     can_see_custom_stories: true,
     expiration: 0,
