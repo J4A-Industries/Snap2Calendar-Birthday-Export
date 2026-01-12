@@ -204,6 +204,17 @@ const convertToFriendFormat = (
   })),
 });
 
+// Helper to convert Uint8Array to base64 without stack overflow
+const uint8ToBase64 = (bytes: Uint8Array): string => {
+  let binary = '';
+  const chunkSize = 8192;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, i + chunkSize);
+    binary += String.fromCharCode.apply(null, Array.from(chunk));
+  }
+  return btoa(binary);
+};
+
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   console.log('[Snap2Calendar] Received raw friend data from MAIN world');
 
@@ -225,8 +236,8 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
       console.log('[Snap2Calendar] gRPC message length:', messageLength);
       if (messageLength > 0 && messageLength <= bytes.length - 5) {
         bytes = bytes.slice(5, 5 + messageLength);
-        // Re-encode to base64 for decoder
-        base64 = btoa(String.fromCharCode.apply(null, Array.from(bytes)));
+        // Re-encode to base64 for decoder (chunked to avoid stack overflow)
+        base64 = uint8ToBase64(bytes);
       }
     }
 
