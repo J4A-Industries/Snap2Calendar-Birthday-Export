@@ -46,24 +46,9 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     }
 
     if (decoded && decoded.length > 0) {
-      console.log('[Snap2Calendar] Successfully decoded', decoded.length, 'friends');
-      const withBirthdays = decoded.filter((f) => f.birthdayMonth && f.birthdayDay).length;
-      console.log('[Snap2Calendar]', withBirthdays, 'friends have birthdays');
-      const withTimestamps = decoded.filter((f) => f.addedTimestamp).length;
-      console.log('[Snap2Calendar]', withTimestamps, 'friends have addedTimestamp');
-      // Log first few friends with their timestamps for debugging
-      console.log('[Snap2Calendar] Sample friends:', decoded.slice(0, 3).map((f) => ({
-        username: f.username,
-        addedTimestamp: f.addedTimestamp,
-        addedDate: f.addedTimestamp ? new Date(f.addedTimestamp).toISOString() : 'none',
-      })));
+      console.log('[Snap2Calendar] Decoded', decoded.length, 'friends');
 
       const converted = convertToFriendFormat(decoded);
-      console.log('[Snap2Calendar] Sample converted:', converted.friends.slice(0, 3).map((f) => ({
-        name: f.name,
-        ts: f.ts,
-        tsDate: new Date(f.ts).toISOString(),
-      })));
 
       // Store in extension storage
       const storage = new Storage({ area: 'local' });

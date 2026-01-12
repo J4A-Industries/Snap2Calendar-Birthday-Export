@@ -26,7 +26,7 @@ export const decodeProtobufFriends = (base64Data: string) => {
     while (pos < d.length) {
       const byte = d[pos];
       // Use multiplication instead of bitshift to avoid 32-bit overflow
-      result += (byte & 0x7f) * Math.pow(2, shift);
+      result += (byte & 0x7f) * (2 ** shift);
       pos++;
       if (!(byte & 0x80)) break;
       shift += 7;
@@ -108,28 +108,13 @@ export const decodeProtobufFriends = (base64Data: string) => {
     return { month, day };
   };
 
-  const parseFriend = (d: Uint8Array, debugFirst = false) => {
+  const parseFriend = (d: Uint8Array) => {
     const fields = parseFields(d);
     let username = '';
     let displayName = '';
     let birthdayMonth: number | undefined;
     let birthdayDay: number | undefined;
     let addedTimestamp: number | undefined;
-
-    // Debug: log all field numbers present
-    if (debugFirst) {
-      console.log('[Decoder] Friend fields present:', Array.from(fields.keys()));
-      fields.forEach((values, fieldNum) => {
-        values.forEach((v) => {
-          if (v.wireType === 0) {
-            console.log(`[Decoder] Field ${fieldNum} (varint):`, v.value);
-          } else if (v.wireType === 2) {
-            const str = tryDecode(v.value);
-            console.log(`[Decoder] Field ${fieldNum} (bytes, len=${v.value.length}):`, str || '[binary]');
-          }
-        });
-      });
-    }
 
     const uf = fields.get(2);
     if (uf) {
@@ -196,15 +181,13 @@ export const decodeProtobufFriends = (base64Data: string) => {
   const seen = new Set<string>();
 
   let pos = 0;
-  let debuggedFirst = false;
   while (pos < data.length - 10) {
     if (data[pos] === 0x12) {
       try {
         const [length, newPos] = readVarint(data, pos + 1);
         if (length > 50 && length < 2000 && newPos + length <= data.length) {
-          const friend = parseFriend(data.slice(newPos, newPos + length), !debuggedFirst);
+          const friend = parseFriend(data.slice(newPos, newPos + length));
           if (friend && !seen.has(friend.username)) {
-            if (!debuggedFirst) debuggedFirst = true;
             friends.push(friend);
             seen.add(friend.username);
           }
