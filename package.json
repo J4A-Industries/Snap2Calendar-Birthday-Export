@@ -1,32 +1,32 @@
 {
   "name": "Snap2Calendar-Birthday-Export",
-  "displayName": "Snap2Calendar Birthday Export",
-  "version": "0.0.7",
+  "displayName": "Snapchat Birthday Exporter",
+  "version": "0.1",
   "description": "Allows exporting of birthdays from Snapchat to your calendar (ICAL format)",
-  "author": "James",
+  "author": "James Arnott",
   "scripts": {
     "dev": "plasmo dev",
     "build-chrome": "plasmo build",
     "package": "plasmo package"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.10",
-    "@mui/system": "^5.14.10",
-    "@mui/x-data-grid": "^6.15.0",
-    "@mui/x-date-pickers": "^6.15.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^5.18.0",
+    "@mui/system": "^5.18.0",
+    "@mui/x-data-grid": "^6.20.4",
+    "@mui/x-date-pickers": "^6.20.2",
     "@plasmohq/messaging": "^0.1.8",
-    "@plasmohq/storage": "^1.8.0",
-    "@types/webextension-polyfill": "^0.10.3",
-    "daisyui": "^3.7.7",
-    "dayjs": "^1.11.10",
-    "ics": "^3.5.0",
-    "plasmo": "^0.84.0",
+    "@plasmohq/storage": "^1.15.0",
+    "@types/webextension-polyfill": "^0.10.7",
+    "daisyui": "^3.9.4",
+    "dayjs": "^1.11.19",
+    "ics": "^3.8.1",
+    "plasmo": "^0.90.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^4.11.0",
-    "rrule": "^2.7.2",
+    "react-icons": "^4.12.0",
+    "rrule": "^2.8.1",
     "tailwindcss": "3.2.4",
     "webextension-polyfill": "^0.10.0"
   },
@@ -39,19 +39,19 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "autoprefixer": "10.4.13",
-    "eslint": "^8.50.0",
+    "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "postcss": "8.4.21",
     "prettier": "2.8.3",
     "typescript": "4.9.4"
   },
   "manifest": {
     "host_permissions": [
-      "*://web.snapchat.com/*"
+      "*://www.snapchat.com/*"
     ],
     "permissions": [
       "storage",
@@ -63,7 +63,7 @@
     },
     "externally_connectable": {
       "matches": [
-        "*://web.snapchat.com/*"
+        "*://www.snapchat.com/*"
       ]
     },
     "browser_specific_settings": {
@@ -100,21 +100,10 @@
       "@typescript-eslint"
     ],
     "rules": {
-      "react/function-component-definition": [
-        2,
-        {
-          "namedComponents": "arrow-function",
-          "unnamedComponents": "arrow-function"
-        }
-      ],
+      "react/function-component-definition": 0,
       "linebreak-style": 0,
       "no-plusplus": 0,
-      "no-tabs": [
-        "error",
-        {
-          "allowIndentationTabs": true
-        }
-      ],
+      "no-tabs": 0,
       "import/extensions": 0,
       "import/no-unresolved": 0,
       "jsx-a11y/click-events-have-key-events": 0,
@@ -123,6 +112,7 @@
       "react/react-in-jsx-scope": 0,
       "react/require-default-props": 0,
       "no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": 0,
       "max-len": 0,
       "react/jsx-filename-extension": 0,
       "react/button-has-type": 0,
@@ -134,10 +124,25 @@
       "no-console": 0,
       "no-alert": 0,
       "import/prefer-default-export": 0,
-      "no-shadow": "off",
-      "@typescript-eslint/no-shadow": "error",
+      "no-shadow": 0,
+      "@typescript-eslint/no-shadow": 0,
       "no-undef": 0,
-      "no-restricted-globals": 0
+      "no-restricted-globals": 0,
+      "no-empty": 0,
+      "no-restricted-syntax": 0,
+      "no-continue": 0,
+      "no-param-reassign": 0,
+      "no-await-in-loop": 0,
+      "no-nested-ternary": 0,
+      "prefer-destructuring": 0,
+      "consistent-return": 0,
+      "default-case": 0,
+      "no-case-declarations": 0,
+      "guard-for-in": 0,
+      "object-curly-newline": 0,
+      "arrow-parens": 0,
+      "comma-dangle": 0,
+      "operator-linebreak": 0
     }
   }
 }

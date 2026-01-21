@@ -6,7 +6,7 @@ import {
 import type {
   GridRowSelectionModel,
 } from '@mui/x-data-grid';
-import { Button, type SelectChangeEvent } from '@mui/material';
+import { Button, Tooltip, type SelectChangeEvent } from '@mui/material';
 import { AiOutlineDownload } from 'react-icons/ai';
 import {
   createEvents, type EventAttributes, type DateArray, type Alarm,
@@ -97,7 +97,6 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         Birthday: date.toLocaleDateString(),
         AddLink: `https://snapchat.com/add/${user.name}`,
       };
-      
       return rowAttribute;
     });
 
@@ -129,7 +128,7 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         },
       },
     ]);
-  }
+  };
 
   const exportToCalendar = async () => {
     const alarms: Alarm[] = selectedAlarms.map((alarm) => {
@@ -298,30 +297,40 @@ export const DatagridToolbar: FC<ToolbarProps> = (
         </Select>
       </FormControl>
       <div className="flex-1" />
-      <Button
-        style={{
-          backgroundColor: canExport ? MuiTheme.palette.secondary.dark : MuiTheme.palette.action.disabled,
-          color: MuiTheme.palette.text.primary,
-        }}
-        variant="contained"
-        startIcon={<AiOutlineDownload className="w-8 h-8" />}
-        onClick={() => exportToCSV()}
-        disabled={!canExport}
-      >
-        CSV
-      </Button>
-      <Button
-        style={{
-          backgroundColor: canExport ? MuiTheme.palette.primary.main : MuiTheme.palette.action.disabled,
-          color: MuiTheme.palette.text.primary,
-        }}
-        variant="contained"
-        startIcon={<AiOutlineDownload className="w-8 h-8" />}
-        onClick={() => exportToCalendar()}
-        disabled={!canExport}
-      >
-        Export Birthdays To Calendar (ICS)
-      </Button>
+      <Tooltip title={canExport ? '' : 'Select friends to export'} arrow>
+        <span>
+          <Button
+            style={{
+              backgroundColor: canExport ? MuiTheme.palette.primary.main : MuiTheme.palette.action.disabled,
+              color: MuiTheme.palette.text.primary,
+            }}
+            variant="contained"
+            startIcon={<AiOutlineDownload className="w-6 h-6" />}
+            onClick={() => exportToCalendar()}
+            disabled={!canExport}
+          >
+            Export to Calendar
+          </Button>
+        </span>
+      </Tooltip>
+      <Tooltip title={canExport ? '' : 'Select friends to export'} arrow>
+        <span>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              color: MuiTheme.palette.text.secondary,
+              minWidth: 'auto',
+              padding: '6px 8px',
+            }}
+            variant="text"
+            size="small"
+            onClick={() => exportToCSV()}
+            disabled={!canExport}
+          >
+            CSV
+          </Button>
+        </span>
+      </Tooltip>
     </GridToolbarContainer>
   );
 };

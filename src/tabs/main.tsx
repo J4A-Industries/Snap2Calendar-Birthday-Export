@@ -1,6 +1,7 @@
 import { useStorage } from '@plasmohq/storage/hook';
 import './style.css';
 import { Storage } from '@plasmohq/storage';
+import { sendToBackground } from '@plasmohq/messaging';
 import { useEffect, useState, type FC } from 'react';
 import {
   DataGrid,
@@ -22,7 +23,18 @@ import { DatagridToolbar } from '@/components/DatagridToolbar';
 import logo from '~assets/icon512.png';
 import { AnalyticsEvent } from '@/misc/GA';
 
-const webSnapchatLoginLink = 'https://accounts.snapchat.com/accounts/v2/login?continue=%2Faccounts%2Fsso%3Fclient_id%3Dweb-calling-corp--prod%26referrer%3Dhttps%253A%252F%252Fweb.snapchat.com%252F';
+const webSnapchatLoginLink = 'https://accounts.snapchat.com/accounts/v2/login?continue=%2Faccounts%2Fsso%3Fclient_id%3Dweb-calling-corp--prod%26referrer%3Dhttps%253A%252F%252Fwww.snapchat.com%252Fweb%252F';
+
+// Save current tab ID so we can return here after sync
+const saveReturnTab = async () => {
+  const tab = await chrome.tabs.getCurrent();
+  if (tab?.id && tab?.windowId) {
+    await sendToBackground({
+      name: 'setReturnTab',
+      body: { tabId: tab.id, windowId: tab.windowId },
+    });
+  }
+};
 
 const dayWithSuffix = (date) => {
   if (date >= 11 && date <= 13) return `${date}th`;
@@ -143,7 +155,7 @@ const main = () => {
       {' '}
       {new Date(stored?.storedAt).toLocaleDateString()}
     </div>
-    <a href={webSnapchatLoginLink} target="_blank" rel="noreferrer">
+    <a href={webSnapchatLoginLink} target="_blank" rel="noreferrer" onClick={saveReturnTab}>
       <div className="btn btn-primary">
         Update Now
       </div>
@@ -151,7 +163,7 @@ const main = () => {
   </>
 
 								) : (
-  <a href={webSnapchatLoginLink} target="_blank" rel="noreferrer">
+  <a href={webSnapchatLoginLink} target="_blank" rel="noreferrer" onClick={saveReturnTab}>
     <div className="btn btn-primary">
       Click here to open snapchat&apos;s website, login and then come back here
     </div>
